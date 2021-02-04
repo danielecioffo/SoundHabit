@@ -36,7 +36,7 @@ def extract_features_from_original_dataset():
     """
 
     # construct the header of the table
-    header = 'filename chroma_stft rmse spectral_centroid spectral_bandwidth rolloff zero_crossing_rate'
+    header = 'filename chroma_stft rms spectral_centroid spectral_bandwidth rolloff zero_crossing_rate'
     # There are 20 MFCC, we will call them mfcc0, mfcc1, ecc
     for i in range(1, 21):
         header += f' mfcc{i}'
@@ -82,4 +82,5 @@ def show_dataset():
 
 
 if __name__ == '__main__':
+    extract_features_from_original_dataset()
     show_dataset()
