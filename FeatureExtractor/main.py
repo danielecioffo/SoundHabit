@@ -36,7 +36,7 @@ def extract_features_from_original_dataset():
     """
 
     # construct the header of the table
-    header = 'filename chroma_stft rms spectral_centroid spectral_bandwidth rolloff zero_crossing_rate'
+    header = 'chroma_stft rms spectral_centroid spectral_bandwidth rolloff zero_crossing_rate'
     # There are 20 MFCC, we will call them mfcc0, mfcc1, ecc
     for i in range(1, 21):
         header += f' mfcc{i}'
@@ -63,7 +63,7 @@ def extract_features_from_original_dataset():
             rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr)
             zcr = librosa.feature.zero_crossing_rate(y)
             mfcc = librosa.feature.mfcc(y=y, sr=sr)
-            to_append = f'{filename} {np.mean(chroma_stft)} {np.mean(rms)} {np.mean(spec_cent)} {np.mean(spec_bw)} ' \
+            to_append = f'{np.mean(chroma_stft)} {np.mean(rms)} {np.mean(spec_cent)} {np.mean(spec_bw)} ' \
                         f'{np.mean(rolloff)} {np.mean(zcr)}'
             for e in mfcc:  # for each mfcc
                 to_append += f' {np.mean(e)}'

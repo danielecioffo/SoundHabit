@@ -38,7 +38,7 @@ public class WelcomePageController {
      * @param actionEvent   The event that occurs when the user click the Login button
      */
     private void handleLoginButtonAction(MouseEvent actionEvent) {
-        if (usernameLoginTextField.getText().equals("") || passwordLoginTextField.getText().equals(""))
+       /* if (usernameLoginTextField.getText().equals("") || passwordLoginTextField.getText().equals(""))
         {
             Utils.showErrorAlert("You need to insert all the values!");
         }
@@ -52,7 +52,8 @@ public class WelcomePageController {
             {
                 Utils.showErrorAlert("Login failed!");
             }
-        }
+        }*/
+        Utils.changeScene("/discovery.fxml", actionEvent);
     }
 
     /**
