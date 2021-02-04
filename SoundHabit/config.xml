@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters>
+	<neo4jIp>localhost</neo4jIp>
+	<neo4jPort>7687</neo4jPort>
+	<neo4jUsername>neo4j</neo4jUsername>
+	<neo4jPassword>soundhabit</neo4jPassword>
+</it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters>
