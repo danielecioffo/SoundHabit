@@ -1,5 +1,6 @@
 package it.unipi.dii.inginf.dmml.soundhabit.app;
 
+import it.unipi.dii.inginf.dmml.soundhabit.classification.FeatureExtractor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,6 +16,9 @@ public class SoundHabit extends Application {
         primaryStage.setTitle("SoundHabit");
         primaryStage.show();
         primaryStage.getIcons().add(new Image("/img/icon.png"));
+        primaryStage.setResizable(false);
+
+        FeatureExtractor featureExtractor = new FeatureExtractor();
     }
 
 
