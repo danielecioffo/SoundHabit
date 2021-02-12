@@ -47,4 +47,4 @@ def show_dataset():
 
 
 if __name__ == '__main__':
-    show_dataset()
+    print(Extractor.extract_feature("/home/danielecioffo/Documenti/GitHub/SoundHabit/FeatureExtractor/genres/blues/blues.00000.wav"))
