@@ -45,25 +45,16 @@ public class Classifier {
      */
     private IBk buildClassifier() {
         IBk classifier = null;
+        try {
+            Instances instances = Utils.loadDataset(PATH_TO_DATASET);
+            Instances reduced = selectAttributes(instances);
 
-        try {   // If the classifier has already been built, we already have it
-            classifier = (IBk) SerializationHelper.read(PATH_TO_CLASSIFIER);
-            System.out.println("Model is present already. Reading it from file...");
-        } catch (Exception e) { // If we can't find the file or something is wrong, we rebuild it
-            System.out.println("Model is not present yet. Building it...");
-            try {
-                Instances instances = Utils.loadDataset(PATH_TO_DATASET);
-                Instances reduced = selectAttributes(instances);
+            classifier = new IBk();
+            classifier.setKNN(K);
+            classifier.buildClassifier(reduced);
 
-                classifier = new IBk();
-                classifier.setKNN(K);
-                classifier.buildClassifier(reduced);
-
-                // The model is saved so that we won't need to rebuild it
-                saveModel(classifier, PATH_TO_CLASSIFIER);
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
 
         return classifier;
@@ -102,19 +93,6 @@ public class Classifier {
     }
 
     /**
-     * Function that serializes the given classifier to the specified stream
-     * @param classifier    classifier to be saved
-     * @param pathToClassifier  where to save it
-     */
-    private void saveModel(IBk classifier, String pathToClassifier) {
-        try {
-            SerializationHelper.write(pathToClassifier, classifier);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Function that classifies the genre of the song passed as parameter
      * @param unlabeled  Song whose genre we want to classify
      * @return  an array of doubles containing predicted class probability distribution
@@ -124,7 +102,7 @@ public class Classifier {
         try {
             Instances reduced = selectAttributes(unlabeled);
             distribution = ibk.distributionForInstance(reduced.firstInstance());
-            System.out.println(ibk.classifyInstance(reduced.firstInstance()));
+            System.out.println("CLASS: " + ibk.classifyInstance(reduced.firstInstance()));
         } catch (Exception e) {
             e.printStackTrace();
         }
