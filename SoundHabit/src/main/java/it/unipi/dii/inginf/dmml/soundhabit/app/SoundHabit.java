@@ -9,6 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SoundHabit extends Application {
 
     @Override

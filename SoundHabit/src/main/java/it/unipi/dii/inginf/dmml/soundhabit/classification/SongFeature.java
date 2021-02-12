@@ -1,7 +1,9 @@
 package it.unipi.dii.inginf.dmml.soundhabit.classification;
 
+import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import weka.core.DenseInstance;
 import weka.core.Instance;
+import weka.core.Instances;
 
 import java.util.List;
 
@@ -29,24 +31,35 @@ public class SongFeature {
      * Function that transform the SongFeature in a Instance
      * @return
      */
-    public Instance toInstance ()
-    {
-        double[] values = new double[26];
-        values[0] = chromaStft;
-        values[1] = rms;
-        values[2] = spectralCentroid;
-        values[3] = spectralBandwidth;
-        values[4] = spectralRolloff;
-        values[5] = zeroCrossingRate;
-        int i=6;
-        for (Double m : mfcc)
-        {
-            values[i] = m;
-            i++;
+    public Instances toInstances () {
+        Instances instances = null;
+        try {
+            instances = Utils.loadDataset("./data.csv");
+
+            double[] values = new double[27];
+            values[0] = chromaStft;
+            values[1] = rms;
+            values[2] = spectralCentroid;
+            values[3] = spectralBandwidth;
+            values[4] = spectralRolloff;
+            values[5] = zeroCrossingRate;
+            int i=6;
+            for (Double m : mfcc)
+            {
+                values[i] = m;
+                i++;
+            }
+            Instance instance = new DenseInstance(1.0, values);
+            instance.setDataset(instances);
+            instance.setClassMissing();
+
+            instances.delete();
+            instances.add(instance);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        Instance instance = new DenseInstance(1.0, values);
-        instance.setClassMissing();
-        return instance;
+        return instances;
     }
 
     public double getChromaStft() {

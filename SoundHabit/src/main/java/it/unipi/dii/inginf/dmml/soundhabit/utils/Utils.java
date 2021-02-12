@@ -13,6 +13,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+import weka.core.Instances;
+import weka.core.converters.ConverterUtils;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -157,4 +159,18 @@ public class Utils {
         pane.getChildren().remove(0, pane.getChildren().size());
     }
 
+
+    /**
+     * Function that load the instances of the dataset
+     * @param path  Path to the dataset
+     * @return  The dataset (instances)
+     * @throws Exception
+     */
+    public static Instances loadDataset (String path) throws Exception {
+        ConverterUtils.DataSource source = new ConverterUtils.DataSource(path);
+        Instances instances = source.getDataSet();
+        instances.setClassIndex(instances.numAttributes() - 1);
+
+        return instances;
+    }
 }

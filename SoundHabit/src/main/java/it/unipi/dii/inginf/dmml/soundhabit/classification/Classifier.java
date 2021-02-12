@@ -1,12 +1,11 @@
 package it.unipi.dii.inginf.dmml.soundhabit.classification;
 
+import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import weka.attributeSelection.CorrelationAttributeEval;
 import weka.attributeSelection.Ranker;
 import weka.classifiers.lazy.IBk;
-import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
-import weka.core.converters.ConverterUtils;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
 
@@ -53,7 +52,7 @@ public class Classifier {
         } catch (Exception e) { // If we can't find the file or something is wrong, we rebuild it
             System.out.println("Model is not present yet. Building it...");
             try {
-                Instances instances = loadDataset(PATH_TO_DATASET);
+                Instances instances = Utils.loadDataset(PATH_TO_DATASET);
                 Instances reduced = selectAttributes(instances);
 
                 classifier = new IBk();
@@ -78,7 +77,7 @@ public class Classifier {
         AttributeSelection filter = new AttributeSelection();
 
         try {
-            Instances instances = loadDataset(PATH_TO_DATASET);
+            Instances instances = Utils.loadDataset(PATH_TO_DATASET);
             CorrelationAttributeEval eval = new CorrelationAttributeEval();
             Ranker search = new Ranker();
             search.setThreshold(0.2);
@@ -116,33 +115,20 @@ public class Classifier {
     }
 
     /**
-     * Function that load the instances of the dataset
-     * @param path  Path to the dataset
-     * @return  The dataset (instances)
-     * @throws Exception
-     */
-    private Instances loadDataset (String path) throws Exception {
-        ConverterUtils.DataSource source = new ConverterUtils.DataSource(path);
-        Instances instances = source.getDataSet();
-        instances.setClassIndex(instances.numAttributes() - 1);
-
-        return instances;
-    }
-
-    /**
      * Function that classifies the genre of the song passed as parameter
-     * @param song  Song whose genre we want to classify
+     * @param unlabeled  Song whose genre we want to classify
      * @return  an array of doubles containing predicted class probability distribution
      */
-    public double[] classify(Instance song) {
-        //TODO applica filtro
-
+    public double[] classify(Instances unlabeled) {
         double[] distribution = new double[6];
         try {
-             distribution = ibk.distributionForInstance(song);
+            Instances reduced = selectAttributes(unlabeled);
+            distribution = ibk.distributionForInstance(reduced.firstInstance());
+            System.out.println(ibk.classifyInstance(reduced.firstInstance()));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return distribution;
     }
 }
