@@ -20,7 +20,7 @@ public class SoundHabit extends Application {
         primaryStage.getIcons().add(new Image("/img/icon.png"));
         primaryStage.setResizable(false);
 
-        Classifier classifier = new Classifier();
+        Classifier classifier = Classifier.getInstance();
     }
 
 
