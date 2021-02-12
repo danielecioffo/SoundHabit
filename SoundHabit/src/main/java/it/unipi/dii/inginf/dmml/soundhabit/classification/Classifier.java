@@ -58,13 +58,13 @@ public class Classifier {
                 classifier = new IBk();
                 classifier.setKNN(K);
                 classifier.buildClassifier(reduced);
+
+                // The model is saved so that we won't need to rebuild it
+                saveModel(classifier, PATH_TO_CLASSIFIER);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
         }
-
-        // The model is saved so that we won't need to rebuild it
-        saveModel(classifier, PATH_TO_CLASSIFIER);
 
         return classifier;
     }
