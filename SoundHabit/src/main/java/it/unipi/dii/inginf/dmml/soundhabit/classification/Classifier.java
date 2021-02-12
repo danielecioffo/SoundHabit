@@ -5,12 +5,10 @@ import weka.attributeSelection.CorrelationAttributeEval;
 import weka.attributeSelection.Ranker;
 import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
-import weka.core.SerializationHelper;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
 
 public class Classifier {
-    private final String PATH_TO_CLASSIFIER = "./IBk.model";
     private final String PATH_TO_DATASET = "./data.csv";
     private final int K = 5;
 
