@@ -36,8 +36,8 @@ public class Classifier {
      * Private constructor
      */
     private Classifier() {
-        ibk = buildClassifier();
         filter = buildAttributeSelectionFilter();
+        ibk = buildClassifier();
     }
 
     /**
