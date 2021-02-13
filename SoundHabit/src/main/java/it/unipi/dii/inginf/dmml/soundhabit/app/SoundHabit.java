@@ -24,6 +24,7 @@ public class SoundHabit extends Application {
         primaryStage.setResizable(false);
 
         Classifier classifier = Classifier.getInstance();
+        FeatureExtractor f = new FeatureExtractor();
 
         //TODO DEBUG cancella poi
 
