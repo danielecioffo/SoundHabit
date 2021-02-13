@@ -25,7 +25,6 @@ public class FeatureExtractor {
             while ((line = bfr.readLine()) != null) {
                 System.out.println(line); //TODO rimuovi stampe per debug
                 song = createSongInstance(line);
-                System.out.println(song.getChromaStft());
             }
 
             System.out.println("........end   process.......");
@@ -37,7 +36,6 @@ public class FeatureExtractor {
     private SongFeature createSongInstance(String features) {
         String[] splitStr = features.split("\\s+");
         double chromaStft = Double.parseDouble(splitStr[0]);
-        System.out.println(chromaStft);
         double rms = Double.parseDouble(splitStr[1]);
         double spectralCentroid = Double.parseDouble(splitStr[2]);
         double spectralBandwidth = Double.parseDouble(splitStr[3]);
