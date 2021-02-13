@@ -7,6 +7,7 @@ import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
+import weka.filters.unsupervised.instance.RemoveDuplicates;
 
 public class Classifier {
     private final String PATH_TO_DATASET = "./data.csv";
@@ -45,7 +46,8 @@ public class Classifier {
         IBk classifier = null;
         try {
             Instances instances = Utils.loadDataset(PATH_TO_DATASET);
-            Instances reduced = selectAttributes(instances);
+            Instances noDuplicates = removeDuplicates(instances);
+            Instances reduced = selectAttributes(noDuplicates);
 
             classifier = new IBk();
             classifier.setKNN(K);
@@ -67,12 +69,13 @@ public class Classifier {
 
         try {
             Instances instances = Utils.loadDataset(PATH_TO_DATASET);
+            Instances noDuplicates = removeDuplicates(instances);
             CorrelationAttributeEval eval = new CorrelationAttributeEval();
             Ranker search = new Ranker();
             search.setThreshold(0.2);
             filter.setEvaluator(eval);
             filter.setSearch(search);
-            filter.setInputFormat(instances);
+            filter.setInputFormat(noDuplicates);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +84,7 @@ public class Classifier {
     }
 
     /**
-     *
+     * Function that selects attributes from the targeted dataset
      * @param oldData   instances whose attributes have to be selected
      * @return  new instances with reduced attributes
      * @throws Exception
@@ -90,6 +93,17 @@ public class Classifier {
         return Filter.useFilter(oldData, filter);
     }
 
+    /**
+     * Function that removes the duplicates from the dataset
+     * @param oldData   dataset containing duplicates to be removed
+     * @return  dataset without duplicates
+     * @throws Exception
+     */
+    private Instances removeDuplicates(Instances oldData) throws Exception {
+        RemoveDuplicates filter = new RemoveDuplicates();
+        filter.setInputFormat(oldData);
+        return Filter.useFilter(oldData, filter);
+    }
     /**
      * Function that classifies the genre of the song passed as parameter
      * @param unlabeled  Song whose genre we want to classify
