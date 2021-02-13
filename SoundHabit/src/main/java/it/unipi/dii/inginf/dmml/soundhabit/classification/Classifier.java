@@ -100,7 +100,7 @@ public class Classifier {
         try {
             Instances reduced = selectAttributes(unlabeled);
             distribution = ibk.distributionForInstance(reduced.firstInstance());
-            System.out.println("CLASS: " + ibk.classifyInstance(reduced.firstInstance()));
+            System.out.println("PREDICTED CLASS: " + unlabeled.classAttribute().value((int) ibk.classifyInstance(reduced.firstInstance())));
         } catch (Exception e) {
             e.printStackTrace();
         }

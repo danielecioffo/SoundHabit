@@ -1,5 +1,7 @@
 package it.unipi.dii.inginf.dmml.soundhabit.classification;
 
+import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +11,7 @@ import java.util.List;
 public class FeatureExtractor {
     private final String ANACONDA_PROMPT_DESTINATION = "C:/Users/feder/anaconda3/Scripts/activate.bat C:/Users/feder/anaconda3";
     private final String PATH_TO_PYTHON_CODE = "C:/Users/feder/IdeaProjects/SoundHabit/FeatureExtractor/main.py";
+    private SongFeature song;
 
     public FeatureExtractor () {
         try {
@@ -20,30 +23,36 @@ public class FeatureExtractor {
             System.out.println(".........start   process.........");
             String line;
             while ((line = bfr.readLine()) != null) {
-                System.out.println("Python Output: " + line);
+                System.out.println(line); //TODO rimuovi stampe per debug
+                song = createSongInstance(line);
+                System.out.println(song.getChromaStft());
             }
 
             System.out.println("........end   process.......");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        /*Properties properties = new Properties();
-        properties.setProperty("python.path", "../FeatureExtractor");
-        PythonInterpreter.initialize(System.getProperties(), properties, new String[]{""});
-        interpreter = new PythonInterpreter();
-        interpreter.exec("from Extractor import square");
+    private SongFeature createSongInstance(String features) {
+        String[] splitStr = features.split("\\s+");
+        double chromaStft = Double.parseDouble(splitStr[0]);
+        System.out.println(chromaStft);
+        double rms = Double.parseDouble(splitStr[1]);
+        double spectralCentroid = Double.parseDouble(splitStr[2]);
+        double spectralBandwidth = Double.parseDouble(splitStr[3]);
+        double spectralRolloff = Double.parseDouble(splitStr[4]);
+        double zeroCrossingRate = Double.parseDouble(splitStr[5]);
 
-        /*interpreter.exec("result = square(5)");
-        interpreter.exec("print(result)");
-        PyInteger result = (PyInteger) interpreter.get("result");
-        System.out.println("result: "+ result.asInt());*/
-        /*PyFunction pf = (PyFunction) interpreter.get("square");
-        System.out.println(pf.__call__(new PyInteger(5)));
-/*
-        interpreter.exec("from Extractor import extract_feature");
-        PyFunction pf = (PyFunction) interpreter.get("extract_feature");
-        System.out.println(pf.__call__(new PyString("/home/danielecioffo/Documenti/GitHub/SoundHabit/FeatureExtractor/genres/blues/blues.00000.wav")));
-    */
+        List<Double> mfcc = new ArrayList<>();
+        for(int i = 6; i<26; i++) {
+            mfcc.add(Double.parseDouble(splitStr[i]));
+        }
+
+        return new SongFeature(chromaStft, rms, spectralCentroid, spectralBandwidth, spectralRolloff, zeroCrossingRate, mfcc);
+    }
+
+    public SongFeature getSong() {
+        return song;
     }
 }
