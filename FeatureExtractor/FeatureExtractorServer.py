@@ -8,7 +8,6 @@ FILE_PACKET_SIZE = 4 * 1024
 
 # Single-process server
 def start_server():
-    file_name_counter = 0
     host = 'localhost'  # Host Name
     port = 5000  # Port Number
     s = jpysocket.jpysocket()  # Create Socket
@@ -38,6 +37,5 @@ def start_server():
             # The /r/n is necessary for the client side, that needs to receive a complete line
             connection.send(bytes(result + "\r\n", 'UTF-8'))
             os.remove("SongTemp.wav")  # remove the temporary file
-            file_name_counter += 1
         connection.close()
     s.close()
