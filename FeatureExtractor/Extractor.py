@@ -17,8 +17,9 @@ def extract_feature(path):
     rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr)
     zcr = librosa.feature.zero_crossing_rate(y=y)
     mfcc = librosa.feature.mfcc(y=y, sr=sr)
-    to_append = f'{np.mean(chroma_stft)} {np.mean(rms)} {np.mean(spec_cent)} {np.mean(spec_bw)} {np.mean(rolloff)} ' \
-                f'{np.mean(zcr)}'
+    # to_append = f'{np.mean(chroma_stft)} {np.mean(rms)} {np.mean(spec_cent)} {np.mean(spec_bw)} {np.mean(rolloff)} {np.mean(zcr)}'
+    to_append = str(np.mean(chroma_stft)) + " " + str(np.mean(rms)) + " " + str(np.mean(spec_cent)) + " " + \
+                str(np.mean(spec_bw)) + " " + str(np.mean(rolloff)) + " " + str(np.mean(zcr))
     for e in mfcc:  # for each mfcc
         to_append += f' {np.mean(e)}'
     return to_append

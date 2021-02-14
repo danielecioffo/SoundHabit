@@ -18,7 +18,7 @@ def start_server():
     while True:
         connection, address = s.accept()  # Accept the Connection
         msg_recv = connection.recv(SIMPLE_PACKET_SIZE)  # Receive msg
-        msg_recv = jpysocket.jpydecode(msg_recv)  # Decript msg
+        msg_recv = jpysocket.jpydecode(msg_recv)  # Decrypt msg
         if msg_recv == "SendFile":
             print("\nRequest for extracting features")
             msg_recv = connection.recv(SIMPLE_PACKET_SIZE)

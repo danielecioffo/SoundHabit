@@ -7,6 +7,7 @@ import weka.classifiers.lazy.IBk;
 import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.supervised.attribute.AttributeSelection;
+import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.instance.RemoveDuplicates;
 
 public class Classifier {
@@ -14,8 +15,9 @@ public class Classifier {
     private final int K = 5;
 
     private static volatile Classifier instance;
-    private IBk ibk;
-    private AttributeSelection filter;
+    private final IBk ibk;
+    private final AttributeSelection attributeSelectionFilter;
+    private final Standardize standardizeFilter;
 
     /**
      * Double-Checked Locking with Singleton
@@ -34,30 +36,27 @@ public class Classifier {
      * Private constructor
      */
     private Classifier() {
-        filter = buildAttributeSelectionFilter();
+        standardizeFilter = buildStandardizeFilter();
+        attributeSelectionFilter = buildAttributeSelectionFilter();
         ibk = buildClassifier();
     }
 
     /**
-     * Function that builds the k-nearest neighbors classifiers
-     * @return  the classifier
+     * Function that builds the standardize filter
+     * @return  the filter
      */
-    private IBk buildClassifier() {
-        IBk classifier = null;
+    private Standardize buildStandardizeFilter() {
+        Standardize filter = new Standardize();
+
         try {
             Instances instances = Utils.loadDataset(PATH_TO_DATASET);
             Instances noDuplicates = removeDuplicates(instances);
-            Instances reduced = selectAttributes(noDuplicates);
-
-            classifier = new IBk();
-            classifier.setKNN(K);
-            classifier.buildClassifier(reduced);
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
+            filter.setInputFormat(noDuplicates);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return classifier;
+        return filter;
     }
 
     /**
@@ -84,26 +83,61 @@ public class Classifier {
     }
 
     /**
+     * Function that builds the k-nearest neighbors classifiers
+     * @return  the classifier
+     */
+    private IBk buildClassifier() {
+        IBk classifier = null;
+        try {
+            Instances instances = Utils.loadDataset(PATH_TO_DATASET);
+            Instances noDuplicates = removeDuplicates(instances);
+            Instances standardized = standardize(noDuplicates);
+            Instances reduced = selectAttributes(standardized);
+
+            classifier = new IBk();
+            classifier.setKNN(K);
+            classifier.buildClassifier(reduced);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return classifier;
+    }
+
+    /**
      * Function that selects attributes from the targeted dataset
      * @param oldData   instances whose attributes have to be selected
      * @return  new instances with reduced attributes
-     * @throws Exception
+     * @throws Exception if it cannot apply the filter correctly
      */
     private Instances selectAttributes(Instances oldData) throws Exception {
-        return Filter.useFilter(oldData, filter);
+        return Filter.useFilter(oldData, attributeSelectionFilter);
+    }
+
+    /**
+     * Function that standardize the attributes of the targeted dataset
+     * @param oldData    instances whose attributes have to be standardized
+     * @return  new instances with standardized attributes
+     * @throws Exception if it cannot apply the filter correctly
+     */
+    private Instances standardize(Instances oldData) throws Exception {
+        return Filter.useFilter(oldData, standardizeFilter);
     }
 
     /**
      * Function that removes the duplicates from the dataset
      * @param oldData   dataset containing duplicates to be removed
      * @return  dataset without duplicates
-     * @throws Exception
+     * @throws Exception if it cannot apply the filter correctly
      */
     private Instances removeDuplicates(Instances oldData) throws Exception {
         RemoveDuplicates filter = new RemoveDuplicates();
         filter.setInputFormat(oldData);
         return Filter.useFilter(oldData, filter);
     }
+
+
     /**
      * Function that classifies the genre of the song passed as parameter
      * @param unlabeled  Song whose genre we want to classify
@@ -112,7 +146,8 @@ public class Classifier {
     public double[] classify(Instances unlabeled) {
         double[] distribution = new double[6];
         try {
-            Instances reduced = selectAttributes(unlabeled);
+            Instances standardized = standardize(unlabeled);
+            Instances reduced = selectAttributes(standardized);
             distribution = ibk.distributionForInstance(reduced.firstInstance());
             System.out.println("PREDICTED CLASS: " + unlabeled.classAttribute().value((int) ibk.classifyInstance(reduced.firstInstance())));
         } catch (Exception e) {

@@ -2,9 +2,6 @@ package it.unipi.dii.inginf.dmml.soundhabit.classification;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +43,7 @@ public class FeatureExtractor {
      * @param path      Path to the song
      * @return          SongFeature instance
      */
-    public SongFeature getSongFeaturesOfSong (final String path)
+    public SongFeature getSongFeaturesOfSong(final String path)
     {
         try(Socket socket = new Socket(FEATURE_EXTRACTOR_SERVER_IP,FEATURE_EXTRACTOR_SERVER_PORT)) {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
