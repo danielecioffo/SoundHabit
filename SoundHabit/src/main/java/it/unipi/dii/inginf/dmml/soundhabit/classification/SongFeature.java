@@ -27,6 +27,8 @@ public class SongFeature {
         this.mfcc = mfcc;
     }
 
+    public SongFeature () {}
+
     /**
      * Function that transform the SongFeature in a Instance
      * @return
@@ -116,5 +118,18 @@ public class SongFeature {
 
     public void setMfcc(List<Double> mfcc) {
         this.mfcc = mfcc;
+    }
+
+    @Override
+    public String toString() {
+        return "SongFeature{" +
+                "chromaStft=" + chromaStft +
+                ", rms=" + rms +
+                ", spectralCentroid=" + spectralCentroid +
+                ", spectralBandwidth=" + spectralBandwidth +
+                ", spectralRolloff=" + spectralRolloff +
+                ", zeroCrossingRate=" + zeroCrossingRate +
+                ", mfcc=" + mfcc +
+                '}';
     }
 }

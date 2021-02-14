@@ -2,6 +2,7 @@ import pandas as pd
 import os
 import csv
 import Extractor
+import FeatureExtractorServer
 
 ORIGINAL_DATASET_PATH = "genres/"
 # genres = 'blues classical country disco hiphop jazz metal pop reggae rock'.split()
@@ -47,4 +48,4 @@ def show_dataset():
 
 
 if __name__ == '__main__':
-    print(Extractor.extract_feature("/home/danielecioffo/Documenti/GitHub/SoundHabit/FeatureExtractor/genres/blues/blues.00000.wav"))
+    FeatureExtractorServer.start_server()
