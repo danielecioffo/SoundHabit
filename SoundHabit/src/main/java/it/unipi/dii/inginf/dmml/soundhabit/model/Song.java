@@ -4,10 +4,10 @@ public class Song {
     private String name;
     private Genre genre;
     private String songLink;
-    private Author author;
+    private String author;
     private String imageLink;
 
-    public Song(String name, Genre genre, String songLink, Author author, String imageLink) {
+    public Song(String name, Genre genre, String songLink, String author, String imageLink) {
         this.name = name;
         this.genre = genre;
         this.songLink = songLink;
@@ -39,11 +39,11 @@ public class Song {
         this.songLink = songLink;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

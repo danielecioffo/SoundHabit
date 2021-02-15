@@ -1,6 +1,5 @@
 package it.unipi.dii.inginf.dmml.soundhabit.controller;
 
-import it.unipi.dii.inginf.dmml.soundhabit.model.Author;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
@@ -61,7 +60,7 @@ public class AdminPageController {
         }
 
         Genre songGenre = (Genre) genresComboBox.getSelectionModel().getSelectedItem();
-        Song newSong = new Song(songTitle.getText(), songGenre, songUrl.getText(), new Author(songAuthor.getText()), imageUrl.getText());
+        Song newSong = new Song(songTitle.getText(), songGenre, songUrl.getText(), songAuthor.getText(), imageUrl.getText());
 
         //TODO fai inserimento nel DB con risultato inserito in "insert"
         boolean insert = true;

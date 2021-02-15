@@ -2,6 +2,8 @@ package it.unipi.dii.inginf.dmml.soundhabit.controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import it.unipi.dii.inginf.dmml.soundhabit.model.Session;
+import it.unipi.dii.inginf.dmml.soundhabit.model.User;
 import it.unipi.dii.inginf.dmml.soundhabit.persistence.Neo4jDriver;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import javafx.fxml.FXML;
@@ -38,7 +40,7 @@ public class WelcomePageController {
      * @param actionEvent   The event that occurs when the user click the Login button
      */
     private void handleLoginButtonAction(MouseEvent actionEvent) {
-       /* if (usernameLoginTextField.getText().equals("") || passwordLoginTextField.getText().equals(""))
+        if (usernameLoginTextField.getText().equals("") || passwordLoginTextField.getText().equals(""))
         {
             Utils.showErrorAlert("You need to insert all the values!");
         }
@@ -46,14 +48,16 @@ public class WelcomePageController {
         {
             if (login(usernameLoginTextField.getText(), passwordLoginTextField.getText()))
             {
-                // Login correctly done
+                if (!Session.getInstance().getLoggedUser().getAdmin())
+                    Utils.changeScene("/discovery.fxml", actionEvent);
+                else
+                    Utils.changeScene("/admin.fxml", actionEvent);
             }
             else
             {
                 Utils.showErrorAlert("Login failed!");
             }
-        }*/
-        Utils.changeScene("/admin.fxml", actionEvent);
+        }
     }
 
     /**
@@ -68,14 +72,17 @@ public class WelcomePageController {
                 confirmPasswordRegistrationTextField.getText().equals(""))
             || (!passwordRegistrationTextField.getText().equals(confirmPasswordRegistrationTextField.getText())))
         {
-            Utils.showErrorAlert("You need to insert all the values! Pay attention that the passwords must be equals!");
+            Utils.showErrorAlert("There are some problems with the input data");
         }
         else
         {
             if (register(firstNameRegistrationTextField.getText(), lastNameRegistrationTextField.getText(),
                     usernameRegistrationTextField.getText(), passwordRegistrationTextField.getText()))
             {
-                Utils.changeScene("/homepage.fxml", actionEvent);
+                if (!Session.getInstance().getLoggedUser().getAdmin())
+                    Utils.changeScene("/discovery.fxml", actionEvent);
+                else
+                    Utils.changeScene("/admin.fxml", actionEvent);
             }
             else
             {
@@ -92,16 +99,17 @@ public class WelcomePageController {
      */
     private boolean login (final String username, final String password)
     {
-        /*User user = neo4jDriver.login(username, password);
-        if(user!=null)
+        User user = neo4jDriver.login(username, password);
+        if(user != null)
         {
+            Session newSession = Session.getInstance();
+            newSession.setLoggedUser(user);
             return true;
         }
         else
         {
             return false;
-        }*/
-        return true;
+        }
     }
 
     /**
@@ -117,7 +125,13 @@ public class WelcomePageController {
     {
         try // Try to register the user, if the username is used by another one than the exception will be throw
         {
-            //neo4jDriver.addUser(firsName, lastName, username, password);
+            neo4jDriver.addUser(firsName, lastName, username, password);
+            Session newSession = Session.getInstance();
+            User registered = new User(firstNameRegistrationTextField.getText(),
+                    lastNameRegistrationTextField.getText(),
+                    usernameRegistrationTextField.getText(), passwordRegistrationTextField.getText(),
+                    false);
+            newSession.setLoggedUser(registered);
             return true;
         }
         catch (org.neo4j.driver.exceptions.ClientException clientException)

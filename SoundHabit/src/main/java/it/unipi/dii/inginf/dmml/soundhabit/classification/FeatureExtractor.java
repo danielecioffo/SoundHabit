@@ -57,7 +57,7 @@ public class FeatureExtractor {
     }
 
     /**
-     * Function that sends a file, dividing it into packet
+     * Function that sends a file to the server, dividing it into packet
      * @param path          Path of the file to send
      * @throws Exception
      */
@@ -66,6 +66,7 @@ public class FeatureExtractor {
         File file = new File(path);
         FileInputStream fileInputStream = new FileInputStream(file);
 
+        // Send the commands
         dataOutputStream.writeUTF("SendFile");
         dataOutputStream.flush();
 
@@ -80,23 +81,4 @@ public class FeatureExtractor {
         }
         fileInputStream.close();
     }
-
-    /*
-    private SongFeature createSongInstance(String features) {
-        String[] splitStr = features.split("\\s+");
-        double chromaStft = Double.parseDouble(splitStr[0]);
-        System.out.println(chromaStft);
-        double rms = Double.parseDouble(splitStr[1]);
-        double spectralCentroid = Double.parseDouble(splitStr[2]);
-        double spectralBandwidth = Double.parseDouble(splitStr[3]);
-        double spectralRolloff = Double.parseDouble(splitStr[4]);
-        double zeroCrossingRate = Double.parseDouble(splitStr[5]);
-
-        List<Double> mfcc = new ArrayList<>();
-        for(int i = 6; i<26; i++) {
-            mfcc.add(Double.parseDouble(splitStr[i]));
-        }
-
-        return new SongFeature(chromaStft, rms, spectralCentroid, spectralBandwidth, spectralRolloff, zeroCrossingRate, mfcc);
-    }*/
 }

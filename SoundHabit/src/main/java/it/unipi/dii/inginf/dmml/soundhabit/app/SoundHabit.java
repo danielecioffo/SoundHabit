@@ -3,6 +3,7 @@ package it.unipi.dii.inginf.dmml.soundhabit.app;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.Classifier;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.FeatureExtractor;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.SongFeature;
+import it.unipi.dii.inginf.dmml.soundhabit.persistence.Neo4jDriver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +15,16 @@ public class SoundHabit extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/welcome.fxml"));
-        primaryStage.setScene(new Scene(loader.load()));
+        FXMLLoader loadErrorPage = new FXMLLoader(getClass().getResource("/errorPage.fxml"));
+
+        Boolean connectionDoneNeo4j = Neo4jDriver.getInstance().initConnection();
+        if(!connectionDoneNeo4j)
+        {
+            primaryStage.setScene(new Scene(loadErrorPage.load()));
+        }
+        else
+            primaryStage.setScene(new Scene(loader.load()));
+
         primaryStage.setTitle("SoundHabit");
         primaryStage.show();
         primaryStage.getIcons().add(new Image("/img/icon.png"));
@@ -46,6 +56,10 @@ public class SoundHabit extends Application {
         for(Double d: classify2) {
             System.out.println(d);
         }*/
+
+        primaryStage.setOnCloseRequest(actionEvent -> {
+            Neo4jDriver.getInstance().closeConnection();
+        });
     }
 
 
