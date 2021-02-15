@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.inginf.dmml.soundhabit.controller.ClassifyPageController">
    <children>
       <AnchorPane prefHeight="270.0" prefWidth="400.0">
@@ -27,7 +26,7 @@
             <Button fx:id="selectFileButton" layoutX="311.0" layoutY="62.0" mnemonicParsing="false" text="Select File" />
             <Button fx:id="classifyButton" layoutX="172.0" layoutY="110.0" mnemonicParsing="false" text="Classify" />
             <ProgressIndicator fx:id="progressCircle" layoutX="175.0" layoutY="187.0" visible="false" />
-            <Label fx:id="waitLabel" layoutX="167.0" layoutY="163.0" text="Please wait..." visible="false" />
+            <Label fx:id="waitLabel" alignment="CENTER" layoutX="6.0" layoutY="163.0" prefHeight="17.0" prefWidth="388.0" text="Please wait..." visible="false" />
          </children>
       </AnchorPane>
    </children>
