@@ -1,6 +1,7 @@
 package it.unipi.dii.inginf.dmml.soundhabit.classification;
 
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
+import javafx.util.Pair;
 import weka.attributeSelection.CorrelationAttributeEval;
 import weka.attributeSelection.Ranker;
 import weka.classifiers.lazy.IBk;
@@ -143,7 +144,7 @@ public class Classifier {
      * @param unlabeled  Song whose genre we want to classify
      * @return  an array of doubles containing predicted class probability distribution
      */
-    public int classify(Instances unlabeled) {
+    public Pair<Integer, double[]> classify(Instances unlabeled) {
         double[] distribution = new double[6];
         int genre = 0;
         try {
@@ -155,6 +156,6 @@ public class Classifier {
             e.printStackTrace();
         }
 
-        return genre;
+        return new Pair<>(genre, distribution);
     }
 }
