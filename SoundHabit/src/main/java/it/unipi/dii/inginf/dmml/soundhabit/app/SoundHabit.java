@@ -22,14 +22,14 @@ public class SoundHabit extends Application {
 
         //TODO DEBUG cancella poi
 
-        Classifier classifier = Classifier.getInstance();
+        /*Classifier classifier = Classifier.getInstance();
         FeatureExtractor f = new FeatureExtractor();
-        SongFeature song = f.getSongFeaturesOfSong("../Test Set/[POP] Taylor Swift - Shake It Off.wav");
+        SongFeature song = f.getSongFeaturesOfSong("../Test Set/[JAZZ] Louis Armstrong - La Vie En Rose.wav");
 
         double[] classify = classifier.classify(song.toInstances());
         for(Double d: classify) {
             System.out.println(d);
-        }
+        }*/
 
         /*
         // POP

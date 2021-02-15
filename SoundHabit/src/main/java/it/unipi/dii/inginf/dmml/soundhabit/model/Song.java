@@ -2,15 +2,13 @@ package it.unipi.dii.inginf.dmml.soundhabit.model;
 
 public class Song {
     private String name;
-    private int duration; // seconds
     private Genre genre;
     private String songLink;
     private Author author;
     private String imageLink;
 
-    public Song(String name, int duration, Genre genre, String songLink, Author author, String imageLink) {
+    public Song(String name, Genre genre, String songLink, Author author, String imageLink) {
         this.name = name;
-        this.duration = duration;
         this.genre = genre;
         this.songLink = songLink;
         this.author = author;
@@ -23,14 +21,6 @@ public class Song {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 
     public Genre getGenre() {
