@@ -6,5 +6,11 @@ public enum Genre {
     JAZZ,
     METAL,
     POP,
-    ROCK
+    ROCK;
+
+    public String toProperCase() {
+        String s = this.name();
+        return s.substring(0, 1).toUpperCase() +
+                s.substring(1).toLowerCase();
+    }
 };

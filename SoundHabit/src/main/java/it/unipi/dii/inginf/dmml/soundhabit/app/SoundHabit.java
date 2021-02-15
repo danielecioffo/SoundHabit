@@ -3,6 +3,8 @@ package it.unipi.dii.inginf.dmml.soundhabit.app;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.Classifier;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.FeatureExtractor;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.SongFeature;
+import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
+import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import it.unipi.dii.inginf.dmml.soundhabit.persistence.Neo4jDriver;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

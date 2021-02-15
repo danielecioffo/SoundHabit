@@ -2,7 +2,9 @@ package it.unipi.dii.inginf.dmml.soundhabit.controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Session;
+import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import it.unipi.dii.inginf.dmml.soundhabit.model.User;
 import it.unipi.dii.inginf.dmml.soundhabit.persistence.Neo4jDriver;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;

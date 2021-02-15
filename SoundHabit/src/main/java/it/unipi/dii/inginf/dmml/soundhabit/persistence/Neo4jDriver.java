@@ -1,11 +1,14 @@
 package it.unipi.dii.inginf.dmml.soundhabit.persistence;
 
 import it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters;
+import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import it.unipi.dii.inginf.dmml.soundhabit.model.User;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static org.neo4j.driver.Values.NULL;
@@ -122,5 +125,30 @@ public class Neo4jDriver {
             e.printStackTrace();
         }
         return u;
+    }
+
+    /**
+     * Function used to add a new song
+     * @param song  Song that has to be added
+     * @return      True if all go well, false otherwise
+     */
+    public boolean addSong (Song song)
+    {
+        try ( Session session = driver.session())
+        {
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run( "CREATE (s:Song {name: $name, songLink: $songLink, author: $author, imageLink: $imageLink}) " +
+                                "SET s:" + song.getGenre().toProperCase(),
+                        parameters( "name", song.getName(), "songLink", song.getSongLink(),
+                                "author", song.getAuthor(), "imageLink", song.getImageLink()));
+                return null;
+            });
+            return true;
+        }
+        catch (Exception ex)
+        {
+            System.err.println("Error in adding a new song in Neo4J");
+            return false;
+        }
     }
 }
