@@ -8,6 +8,7 @@ import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -132,7 +133,7 @@ public class Neo4jDriver {
      * @param song  Song that has to be added
      * @return      True if all go well, false otherwise
      */
-    public boolean addSong (Song song)
+    public boolean addSong (final Song song)
     {
         try ( Session session = driver.session())
         {
@@ -151,4 +152,84 @@ public class Neo4jDriver {
             return false;
         }
     }
+
+    /**
+     * Function used to check if this song is liked by the user
+     * @param song      Song to check
+     * @param user      User to consider
+     * @return          True if there exists the likes relation, false otherwise
+     */
+    public Boolean isThisSongLikedByUser (final User user, final Song song)
+    {
+        Boolean relation = false;
+        try(Session session = driver.session())
+        {
+            relation = session.readTransaction((TransactionWork<Boolean>) tx -> {
+                Result r = tx.run("MATCH (:User {username: $username})" +
+                                    "-[:LIKES]->" +
+                                    "(:Song {name: $name, author: $author}) " +
+                                    "RETURN COUNT(*)",
+                        parameters("username", user.getUsername(),"name", song.getName(),
+                                "author", song.getAuthor()));
+                Record rec = r.next();
+                if(rec.get(0).asInt()==0)
+                    return false;
+                else
+                    return true;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return relation;
+    }
+
+    /**
+     * It creates the relation user-[:LIKES]->song
+     * @param user      The User from which starts the relation
+     * @param song      The song that will be reached
+     */
+    public void like (final User user, final Song song)
+    {
+        try(Session session = driver.session())
+        {
+            session.writeTransaction((TransactionWork<Integer>) tx -> {
+                tx.run("MATCH (u:User) WHERE u.username=$username " +
+                        "MATCH (s:SONG) WHERE s.name=$name AND s.author=$author" +
+                        "MERGE (u)-[:LIKES]->(s)",
+                        parameters("username",user.getUsername(),"name",song.getName(),
+                                "author", song.getAuthor()));
+                return null;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * It deletes the relation user-[:LIKES]->song
+     * @param user          The User
+     * @param song          The Song
+     */
+    public void unlike (final User user, final Song song)
+    {
+        try(Session session = driver.session())
+        {
+            session.writeTransaction((TransactionWork<Integer>) tx -> {
+                tx.run("MATCH (u:User {username:$username})-[l:LIKES]->(s:Song {name: $name, author: $author})" +
+                        " delete l",
+                        parameters("username", user.getUsername(),"name", song.getName(),
+                                "author", song.getAuthor()));
+                return null;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }

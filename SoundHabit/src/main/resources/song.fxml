@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="songPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="600.0" style="-fx-background-position: center; -fx-border-radius: 10px; -fx-border-style: solid; -fx-border-width: 3px; -fx-border-color: orange;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.inginf.dmml.soundhabit.controller.SongController">
+   <children>
+      <ImageView fx:id="songImageView" fitHeight="170.0" fitWidth="193.0" layoutX="22.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/img/defaultSong.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="nameLabel" layoutX="256.0" layoutY="31.0" prefHeight="16.0" prefWidth="325.0" text="Name" />
+      <Label fx:id="authorLabel" layoutX="256.0" layoutY="54.0" prefHeight="16.0" prefWidth="325.0" text="Author" />
+      <Label fx:id="genreLabel" layoutX="256.0" layoutY="76.0" prefHeight="16.0" prefWidth="325.0" text="Genre" />
+      <Label fx:id="linkLabel" layoutX="256.0" layoutY="100.0" prefHeight="16.0" prefWidth="325.0" text="Link" />
+      <ImageView fx:id="songLikeImageView" fitHeight="40.0" fitWidth="54.0" layoutX="256.0" layoutY="145.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/img/like.png" />
+         </image>
+      </ImageView>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>

@@ -2,7 +2,9 @@ package it.unipi.dii.inginf.dmml.soundhabit.utils;
 
 import com.thoughtworks.xstream.XStream;
 import it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters;
+import it.unipi.dii.inginf.dmml.soundhabit.controller.SongController;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
+import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -27,6 +30,8 @@ import javax.xml.validation.SchemaFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
@@ -192,5 +197,38 @@ public class Utils {
             default:
                 return Genre.BLUES;
         }
+    }
+
+    /**
+     * Function used to show a list of songs in the VBox
+     * @param vBox      Pane in which I have to show the songs
+     * @param songs     Songs to show
+     */
+    public static void showSongs(VBox vBox, List<Song> songs) {
+        for (Song song: songs)
+        {
+            Pane commentPane = loadSong(song);
+            vBox.getChildren().add(commentPane);
+        }
+    }
+
+    /**
+     * Function used to load the .fxml for the song
+     * @param song      Song to show
+     * @return          The pane in which I have showed the song
+     */
+    private static Pane loadSong (Song song)
+    {
+        Pane pane = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(Utils.class.getResource("/song.fxml"));
+            pane = (Pane) loader.load();
+            SongController songController =
+                    (SongController) loader.getController();
+            songController.setSong(song);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return pane;
     }
 }
