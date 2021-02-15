@@ -21,7 +21,7 @@ public class SoundHabit extends Application {
         primaryStage.setResizable(false);
 
         //TODO DEBUG cancella poi
-
+/*
         /*Classifier classifier = Classifier.getInstance();
         FeatureExtractor f = new FeatureExtractor();
         SongFeature song = f.getSongFeaturesOfSong("../Test Set/[JAZZ] Louis Armstrong - La Vie En Rose.wav");
@@ -30,7 +30,6 @@ public class SoundHabit extends Application {
         for(Double d: classify) {
             System.out.println(d);
         }*/
-
         /*
         // POP
         /*List<Double> mfcc = Arrays.asList(-52.51793670654297,37.48890686035156,14.116278648376465,18.180391311645508,16.781204223632812,5.961240291595459,6.443281650543213,2.7201662063598633,-0.4362645447254181,3.2229056358337402,-3.9291481971740723,1.6018062829971313,0.29740315675735474,-0.16164188086986542,-0.5097914934158325,-1.5459802150726318,2.0748283863067627,1.2206205129623413,4.581011772155762,1.6373120546340942);

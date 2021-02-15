@@ -6,8 +6,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 public class DiscoveryPageController {
-    @FXML private Button homeButton;
-    @FXML private Button profileButton;
     @FXML private TextField searchBar;
     @FXML private Button searchButton;
     @FXML private ComboBox<String> searchComboBox;
@@ -19,7 +17,7 @@ public class DiscoveryPageController {
      */
     public void initialize()
     {
-        homeButton.setOnMouseClicked(eventHandler -> {System.out.println("Home clicked");});
+
     }
 
 }

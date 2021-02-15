@@ -7,10 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FeatureExtractor {
-    //private final String ANACONDA_PROMPT_DESTINATION = "C:/Users/feder/anaconda3/Scripts/activate.bat C:/Users/feder/anaconda3";
-    //private final String PATH_TO_PYTHON_CODE = "C:/Users/feder/IdeaProjects/SoundHabit/FeatureExtractor/main.py";
-    //private SongFeature song;
-
     private DataOutputStream dataOutputStream;
     private BufferedReader bufferedReader;
     private final int FILE_PACKET_SIZE = 4 * 1024;
@@ -18,24 +14,6 @@ public class FeatureExtractor {
     private final int FEATURE_EXTRACTOR_SERVER_PORT = 5000;
 
     public FeatureExtractor () {
-        /*try {
-            ProcessBuilder pb = new ProcessBuilder("cmd.exe", "/C",  ANACONDA_PROMPT_DESTINATION + " && python " + PATH_TO_PYTHON_CODE);
-            Process p = pb.start();
-
-            BufferedReader bfr = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            System.out.println(".........start   process.........");
-            String line;
-            while ((line = bfr.readLine()) != null) {
-                System.out.println(line);
-                song = createSongInstance(line);
-                System.out.println(song.getChromaStft());
-            }
-
-            System.out.println("........end   process.......");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     /**

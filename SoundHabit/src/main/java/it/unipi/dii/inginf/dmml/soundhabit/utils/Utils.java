@@ -2,6 +2,7 @@ package it.unipi.dii.inginf.dmml.soundhabit.utils;
 
 import com.thoughtworks.xstream.XStream;
 import it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters;
+import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -46,7 +47,7 @@ public class Utils {
         Scene scene = null;
         FXMLLoader loader = null;
         try {
-            loader=new FXMLLoader(Utils.class.getResource(fileName));
+            loader = new FXMLLoader(Utils.class.getResource(fileName));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(loader.load());
             stage.setScene(scene);
@@ -172,5 +173,24 @@ public class Utils {
         instances.setClassIndex(instances.numAttributes() - 1);
 
         return instances;
+    }
+
+    public static Genre integerToGenre(int genre) {
+        switch (genre) {
+            case 0:
+                return Genre.BLUES;
+            case 1:
+                return Genre.CLASSICAL;
+            case 2:
+                return Genre.JAZZ;
+            case 3:
+                return Genre.METAL;
+            case 4:
+                return Genre.POP;
+            case 5:
+                return Genre.ROCK;
+            default:
+                return Genre.BLUES;
+        }
     }
 }

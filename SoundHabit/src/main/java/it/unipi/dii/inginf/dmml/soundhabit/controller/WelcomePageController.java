@@ -53,7 +53,7 @@ public class WelcomePageController {
                 Utils.showErrorAlert("Login failed!");
             }
         }*/
-        Utils.changeScene("/discovery.fxml", actionEvent);
+        Utils.changeScene("/admin.fxml", actionEvent);
     }
 
     /**

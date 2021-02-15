@@ -143,17 +143,18 @@ public class Classifier {
      * @param unlabeled  Song whose genre we want to classify
      * @return  an array of doubles containing predicted class probability distribution
      */
-    public double[] classify(Instances unlabeled) {
+    public int classify(Instances unlabeled) {
         double[] distribution = new double[6];
+        int genre = 0;
         try {
             Instances standardized = standardize(unlabeled);
             Instances reduced = selectAttributes(standardized);
             distribution = ibk.distributionForInstance(reduced.firstInstance());
-            System.out.println("PREDICTED CLASS: " + unlabeled.classAttribute().value((int) ibk.classifyInstance(reduced.firstInstance())));
+            genre = (int) ibk.classifyInstance(reduced.firstInstance());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return distribution;
+        return genre;
     }
 }
