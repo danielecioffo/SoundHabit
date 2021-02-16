@@ -35,7 +35,7 @@ public class SongController {
         this.song = song;
         nameLabel.setText("Name: " + song.getName());
         authorLabel.setText("Author: " + song.getAuthor());
-        genreLabel.setText("Genre:" + song.getGenresString());
+        genreLabel.setText("Genre: " + song.getGenresString("; "));
         linkLabel.setText("Link: " + song.getSongLink());
         if (song.getImageLink() != null) {
             try {

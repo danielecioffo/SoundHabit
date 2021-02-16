@@ -138,12 +138,11 @@ public class Neo4jDriver {
      */
     public boolean addSong (final Song song)
     {
-
         try ( Session session = driver.session())
         {
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 tx.run( "CREATE (s:Song {name: $name, songLink: $songLink, author: $author, imageLink: $imageLink}) " +
-                                "SET s:" + song.getGenresString(),
+                                "SET s:" + song.getGenresString(":"),
                         parameters( "name", song.getName(), "songLink", song.getSongLink(),
                                 "author", song.getAuthor(), "imageLink", song.getImageLink()));
                 return null;

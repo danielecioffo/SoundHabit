@@ -29,13 +29,13 @@ public class Song {
         return genre;
     }
 
-    public String getGenresString() {
+    public String getGenresString(String delimiter) {
         StringBuilder genres = new StringBuilder();
         for(int i = 0; i<genre.size(); i++) {
             Genre g = genre.get(i);
-            genres.append(" ").append(g.toProperCase());
+            genres.append(g.toProperCase());
             if(i != genre.size() -1) {
-                genres.append(";");
+                genres.append(delimiter);
             }
         }
         return String.valueOf(genres);
