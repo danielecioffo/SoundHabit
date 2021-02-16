@@ -27,11 +27,10 @@
             <version>4.1.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.4.7</version>
+            <version>[1.4.15,)</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-dev -->
@@ -39,12 +38,6 @@
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-dev</artifactId>
             <version>3.9.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.python</groupId>
-            <artifactId>jython-standalone</artifactId>
-            <version>2.7.1</version>
         </dependency>
 
     </dependencies>

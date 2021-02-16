@@ -56,7 +56,7 @@ public class ConfigurationParameters {
 
             String text = null;
             try {
-                text = new String(Files.readAllBytes(Paths.get("./config.xml")));
+                text = new String(Files.readAllBytes(Paths.get("config.xml")));
             }
             catch (Exception e) {
                 System.err.println(e.getMessage());
@@ -87,7 +87,7 @@ public class ConfigurationParameters {
         {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Document document = documentBuilder.parse("./config.xml");
+            Document document = documentBuilder.parse("config.xml");
             Schema schema = schemaFactory.newSchema(new StreamSource("./config.xsd"));
             schema.newValidator().validate(new DOMSource(document));
         }
