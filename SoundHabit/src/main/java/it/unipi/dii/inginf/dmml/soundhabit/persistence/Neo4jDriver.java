@@ -196,7 +196,7 @@ public class Neo4jDriver {
         {
             session.writeTransaction((TransactionWork<Integer>) tx -> {
                 tx.run("MATCH (u:User) WHERE u.username=$username " +
-                        "MATCH (s:SONG) WHERE s.name=$name AND s.author=$author" +
+                        "MATCH (s:SONG) WHERE s.name=$name AND s.author=$author " +
                         "MERGE (u)-[:LIKES]->(s)",
                         parameters("username",user.getUsername(),"name",song.getName(),
                                 "author", song.getAuthor()));
