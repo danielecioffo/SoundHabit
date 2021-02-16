@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="560.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.inginf.dmml.soundhabit.controller.AdminPageController">
+<VBox prefHeight="560.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.inginf.dmml.soundhabit.controller.AdminPageController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
       <children>

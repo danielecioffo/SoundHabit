@@ -38,13 +38,13 @@ public class SongController {
         linkLabel.setText("Link: " + song.getSongLink());
         if (song.getImageLink() != null) {
             try {
-                songImageView.setImage(new Image(song.getImageLink()));
+                songImageView.setImage(new Image(song.getImageLink(), true));
             } catch(Exception e) {
-                songImageView.setImage(new Image("img/defaultSong.png"));
+                songImageView.setImage(new Image("img/defaultSong.png", true));
             }
         }
         else {
-            songImageView.setImage(new Image("img/defaultSong.png"));
+            songImageView.setImage(new Image("img/defaultSong.png", true));
         }
 
         if(neo4jDriver.isThisSongLikedByUser(Session.getInstance().getLoggedUser(), song))

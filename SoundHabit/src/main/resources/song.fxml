@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="songPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="600.0" style="-fx-background-position: center; -fx-border-radius: 10px; -fx-border-style: solid; -fx-border-width: 3px; -fx-border-color: orange;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.inginf.dmml.soundhabit.controller.SongController">
+<AnchorPane fx:id="songPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="600.0" style="-fx-background-position: center; -fx-border-radius: 10px; -fx-border-style: solid; -fx-border-width: 3px; -fx-border-color: orange;" xmlns="http://javafx.com/javafx/11.0.10" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unipi.dii.inginf.dmml.soundhabit.controller.SongController">
    <children>
       <ImageView fx:id="songImageView" fitHeight="170.0" fitWidth="193.0" layoutX="22.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
          <image>
