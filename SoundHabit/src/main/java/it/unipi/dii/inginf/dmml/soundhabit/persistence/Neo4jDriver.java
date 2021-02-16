@@ -276,7 +276,7 @@ public class Neo4jDriver {
 
     public void populateDatabase() {
         // ROCK
-        addSong(new Song("Purple Haze", Genre.ROCK, "https://youtu.be/WGoDaYjdfSg", "Jimi Hendrix", "https://img.discogs.com/_PkIEYMnddZ2B5ORa5rCjiKB64c=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-1249202-1203693818.jpeg.jpg"));
+        addSong(new Song("Purple Haze", Genre.ROCK, "https://youtu.be/WGoDaYjdfSg", "Jimi Hendrix", "https://c-sf.smule.com/rs-s24/arr/18/84/e5edb226-59d0-4d4f-858f-6fce20a7b326.jpg"));
         addSong(new Song("Under Pressure", Genre.ROCK, "https://youtu.be/a01QQZyl-_I", "Queen", "https://e-cdns-images.dzcdn.net/images/cover/e16455433a84c7e19025403ae3eec52d/350x350.jpg"));
         addSong(new Song("Start Me Up", Genre.ROCK, "https://youtu.be/SGyOaCXr8Lw", "The Rolling Stones", "https://images-na.ssl-images-amazon.com/images/I/91Bl4KIUFUL._AC_SL1500_.jpg"));
         addSong(new Song("Proud Mary", Genre.ROCK, "https://youtu.be/5hid10EgMXE", "Creedence Clearwater Revival", "https://upload.wikimedia.org/wikipedia/en/thumb/3/35/CCR_-_Proud_Mary.png/220px-CCR_-_Proud_Mary.png"));
@@ -290,7 +290,7 @@ public class Neo4jDriver {
         // METAL
         addSong(new Song("Paranoid", Genre.METAL, "https://youtu.be/0qanF-91aJo", "Black Sabbath", "https://images-na.ssl-images-amazon.com/images/I/71vSn%2BlK4WL._AC_SL1425_.jpg"));
         addSong(new Song("Master of Puppets", Genre.METAL, "https://youtu.be/u6LahTuw02c", "Metallica", "https://images-na.ssl-images-amazon.com/images/I/81hryXAVZjL._AC_SX522_.jpg"));
-        addSong(new Song("Ace of Spades", Genre.METAL, "https://youtu.be/3mbvWn1EY6g", "Motorhead", "https://www.nemesisnow.com/media/catalog/product/cache/7c3262bc18147ce5dc018ae87bc5e673/b/5/b5367s0.jpg"));
+        addSong(new Song("Ace of Spades", Genre.METAL, "https://youtu.be/3mbvWn1EY6g", "Motorhead", "https://i.ebayimg.com/images/g/DUUAAOSweD5ZsRsO/s-l300.jpg"));
         addSong(new Song("Crazy Train", Genre.METAL, "https://youtu.be/tMDFv5m18Pw", "Ozzy Osbourne", "https://img.discogs.com/8bUU93zXGsURUsyY-j4ZzEECB_4=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-9746157-1485711017-2680.jpeg.jpg"));
         addSong(new Song("Welcome To The Jungle", Genre.METAL, "https://youtu.be/o1tj2zJ2Wvg", "Guns N' Roses", "https://upload.wikimedia.org/wikipedia/en/d/d6/Welcometothejungle.jpg"));
         addSong(new Song("The Number of the Beast", Genre.METAL, "https://youtu.be/WxnN05vOuSM", "Iron Maiden", "https://img.discogs.com/bDcM6fLNCYutvHmREnGWpWw_4To=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-6191421-1428850748-1506.jpeg.jpg"));
