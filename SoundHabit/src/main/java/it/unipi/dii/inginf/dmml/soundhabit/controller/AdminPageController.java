@@ -2,6 +2,7 @@ package it.unipi.dii.inginf.dmml.soundhabit.controller;
 
 import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
+import it.unipi.dii.inginf.dmml.soundhabit.persistence.Neo4jDriver;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,12 +25,14 @@ public class AdminPageController {
     @FXML private Button classifyButton;
     @FXML private Button clearFieldsButton;
     @FXML private Button insertSongButton;
-
+    private Neo4jDriver neo4jDriver;
 
     /**
      ** Method called when the controller is initialized
      */
     public void initialize() {
+        neo4jDriver = Neo4jDriver.getInstance();
+
         genresComboBox.getItems().addAll(Genre.BLUES, Genre.CLASSICAL, Genre.JAZZ, Genre.METAL, Genre.POP, Genre.ROCK);
         classifyButton.setOnMouseClicked(mouseEvent -> classifySong(mouseEvent));
         clearFieldsButton.setOnMouseClicked(mouseEvent -> clearFields());
@@ -62,8 +65,7 @@ public class AdminPageController {
         Genre songGenre = (Genre) genresComboBox.getSelectionModel().getSelectedItem();
         Song newSong = new Song(songTitle.getText(), songGenre, songUrl.getText(), songAuthor.getText(), imageUrl.getText());
 
-        //TODO fai inserimento nel DB con risultato inserito in "insert"
-        boolean insert = true;
+        boolean insert = neo4jDriver.addSong(newSong);
 
         if(insert) {
             Utils.showInfoAlert("The song was correctly inserted");
