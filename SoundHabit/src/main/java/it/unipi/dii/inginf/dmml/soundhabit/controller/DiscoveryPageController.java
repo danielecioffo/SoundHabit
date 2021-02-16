@@ -28,8 +28,8 @@ public class DiscoveryPageController {
     public void initialize()
     {
         List<Song> songList = new ArrayList<>();
-        songList.add(new Song("Prova", Genre.BLUES, "www.google.com", "Mozart", ""));
-        songList.add(new Song("Prova", Genre.BLUES, "www.google.com", "Mozart", ""));
+        songList.add(new Song("Prova", Genre.BLUES, "www.google.com", "Mozart", null));
+        songList.add(new Song("Prova", Genre.BLUES, "www.google.com", "Mozart", null));
         Utils.showSongs(showingVBox, songList);
     }
 

@@ -1,5 +1,7 @@
 package it.unipi.dii.inginf.dmml.soundhabit.classification;
 
+import it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -10,10 +12,13 @@ public class FeatureExtractor {
     private DataOutputStream dataOutputStream;
     private BufferedReader bufferedReader;
     private final int FILE_PACKET_SIZE = 4 * 1024;
-    private final String FEATURE_EXTRACTOR_SERVER_IP = "localhost";
-    private final int FEATURE_EXTRACTOR_SERVER_PORT = 5000;
+    private String featureExtractorServerIp;
+    private int featureExtractorServerPort;
 
     public FeatureExtractor () {
+        ConfigurationParameters configurationParameters = ConfigurationParameters.getInstance();
+        featureExtractorServerIp = configurationParameters.getFeatureExtractorServerIp();
+        featureExtractorServerPort = configurationParameters.getFeatureExtractorServerPort();
     }
 
     /**
@@ -23,7 +28,7 @@ public class FeatureExtractor {
      */
     public SongFeature getSongFeaturesOfSong(final String path)
     {
-        try(Socket socket = new Socket(FEATURE_EXTRACTOR_SERVER_IP,FEATURE_EXTRACTOR_SERVER_PORT)) {
+        try(Socket socket = new Socket(featureExtractorServerIp,featureExtractorServerPort)) {
             dataOutputStream = new DataOutputStream(socket.getOutputStream());
             bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 

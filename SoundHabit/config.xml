@@ -4,4 +4,6 @@
 	<neo4jPort>7687</neo4jPort>
 	<neo4jUsername>neo4j</neo4jUsername>
 	<neo4jPassword>soundhabit</neo4jPassword>
+	<featureExtractorServerIp>localhost</featureExtractorServerIp>
+	<featureExtractorServerPort>5000</featureExtractorServerPort>
 </it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters>
