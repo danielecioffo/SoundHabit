@@ -249,7 +249,7 @@ public class Neo4jDriver {
             session.readTransaction(tx -> {
                 Result result = tx.run("MATCH (s:" + genre.toProperCase() + ")" +
                                 "RETURN s.name AS name, s.songLink AS songLink, s.author AS author, " +
-                                "s.imageLink AS imageLink " +
+                                "s.imageLink AS imageLink, LABELS(s) AS labels " +
                                 "SKIP $skip LIMIT $limit",
                         parameters("skip", howManySkip, "limit", howMany));
 
@@ -259,8 +259,8 @@ public class Neo4jDriver {
                     String songLink = r.get("songLink").asString();
                     String author = r.get("author").asString();
                     String imageLink = r.get("imageLink").asString();
-                    // TODO prendi tutti i label dei generi
-                    Song song = new Song(name, Collections.singletonList(genre), songLink, author, imageLink);
+                    List<Genre> genres = getGenresFromListOfLabels(r.get("labels").asList());
+                    Song song = new Song(name, genres, songLink, author, imageLink);
                     songs.add(song);
                 }
                 return null;
@@ -323,15 +323,26 @@ public class Neo4jDriver {
         List<String> labels = list.stream()
                 .map(object -> Objects.toString(object, null))
                 .collect(Collectors.toList());
-        for (String label: labels)
-        {
+        for (String label: labels) {
             switch (label) {
-                case "Blues":   genres.add(Genre.BLUES);
-                case "Classical": genres.add(Genre.CLASSICAL);
-                case "Jazz": genres.add(Genre.JAZZ);
-                case "Metal": genres.add(Genre.METAL);
-                case "Pop": genres.add(Genre.POP);
-                case "Rock": genres.add(Genre.ROCK);
+                case "Blues":
+                    genres.add(Genre.BLUES);
+                    break;
+                case "Classical":
+                    genres.add(Genre.CLASSICAL);
+                    break;
+                case "Jazz":
+                    genres.add(Genre.JAZZ);
+                    break;
+                case "Metal":
+                    genres.add(Genre.METAL);
+                    break;
+                case "Pop":
+                    genres.add(Genre.POP);
+                    break;
+                case "Rock":
+                    genres.add(Genre.ROCK);
+                    break;
             }
         }
         return genres;
