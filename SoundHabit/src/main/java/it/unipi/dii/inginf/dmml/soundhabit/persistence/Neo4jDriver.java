@@ -35,8 +35,15 @@ public class Neo4jDriver {
     }
 
     public static Neo4jDriver getInstance() {
-        if (instance == null) {
-            instance = new Neo4jDriver(Utils.readConfigurationParameters());
+        if(instance == null)
+        {
+            synchronized (Neo4jDriver.class)
+            {
+                if(instance==null)
+                {
+                    instance = new Neo4jDriver(ConfigurationParameters.getInstance());
+                }
+            }
         }
         return instance;
     }
