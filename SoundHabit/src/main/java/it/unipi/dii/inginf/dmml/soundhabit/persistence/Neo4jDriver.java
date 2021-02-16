@@ -4,16 +4,10 @@ import it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import it.unipi.dii.inginf.dmml.soundhabit.model.User;
-import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import org.neo4j.driver.*;
-import org.neo4j.driver.exceptions.ClientException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
-import static org.neo4j.driver.Values.NULL;
 import static org.neo4j.driver.Values.parameters;
 
 /**

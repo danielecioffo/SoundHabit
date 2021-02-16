@@ -12,8 +12,8 @@ public class FeatureExtractor {
     private DataOutputStream dataOutputStream;
     private BufferedReader bufferedReader;
     private final int FILE_PACKET_SIZE = 4 * 1024;
-    private String featureExtractorServerIp;
-    private int featureExtractorServerPort;
+    private final String featureExtractorServerIp;
+    private final int featureExtractorServerPort;
 
     public FeatureExtractor () {
         ConfigurationParameters configurationParameters = ConfigurationParameters.getInstance();
@@ -64,10 +64,10 @@ public class FeatureExtractor {
     /**
      * Function that sends a file to the server, dividing it into packet
      * @param path          Path of the file to send
-     * @throws Exception
+     * @throws Exception if something goes wrong
      */
     private void sendFile(String path) throws Exception{
-        int bytes = 0;
+        int bytes;
         File file = new File(path);
         FileInputStream fileInputStream = new FileInputStream(file);
 

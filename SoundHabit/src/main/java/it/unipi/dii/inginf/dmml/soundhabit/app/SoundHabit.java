@@ -14,7 +14,7 @@ public class SoundHabit extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/welcome.fxml"));
         FXMLLoader loadErrorPage = new FXMLLoader(getClass().getResource("/errorPage.fxml"));
 
-        Boolean connectionDoneNeo4j = Neo4jDriver.getInstance().initConnection();
+        boolean connectionDoneNeo4j = Neo4jDriver.getInstance().initConnection();
         if(!connectionDoneNeo4j)
         {
             primaryStage.setScene(new Scene(loadErrorPage.load()));
@@ -28,9 +28,7 @@ public class SoundHabit extends Application {
         primaryStage.setResizable(false);
 
 
-        primaryStage.setOnCloseRequest(actionEvent -> {
-            Neo4jDriver.getInstance().closeConnection();
-        });
+        primaryStage.setOnCloseRequest(actionEvent -> Neo4jDriver.getInstance().closeConnection());
     }
 
 

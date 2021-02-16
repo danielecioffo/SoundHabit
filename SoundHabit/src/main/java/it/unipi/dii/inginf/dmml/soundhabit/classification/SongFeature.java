@@ -31,7 +31,7 @@ public class SongFeature {
 
     /**
      * Function that transform the SongFeature in a Instance
-     * @return
+     * @return a dataset containing the new song
      */
     public Instances toInstances () {
         Instances instances = null;

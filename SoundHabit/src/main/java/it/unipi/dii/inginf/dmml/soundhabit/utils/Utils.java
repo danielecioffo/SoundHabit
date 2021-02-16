@@ -1,7 +1,5 @@
 package it.unipi.dii.inginf.dmml.soundhabit.utils;
 
-import com.thoughtworks.xstream.XStream;
-import it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters;
 import it.unipi.dii.inginf.dmml.soundhabit.controller.SongController;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
@@ -15,25 +13,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.List;
-
-import static java.lang.Thread.sleep;
 
 /**
  * Class that contains some useful method
@@ -49,8 +33,8 @@ public class Utils {
      */
     public static Object changeScene (String fileName, Event event)
     {
-        Scene scene = null;
-        FXMLLoader loader = null;
+        Scene scene;
+        FXMLLoader loader;
         try {
             loader = new FXMLLoader(Utils.class.getResource(fileName));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -111,7 +95,7 @@ public class Utils {
      * Function that load the instances of the dataset
      * @param path  Path to the dataset
      * @return  The dataset (instances)
-     * @throws Exception
+     * @throws Exception in case of error
      */
     public static Instances loadDataset (String path) throws Exception {
         ConverterUtils.DataSource source = new ConverterUtils.DataSource(path);
@@ -123,8 +107,6 @@ public class Utils {
 
     public static Genre integerToGenre(int genre) {
         switch (genre) {
-            case 0:
-                return Genre.BLUES;
             case 1:
                 return Genre.CLASSICAL;
             case 2:
@@ -163,9 +145,9 @@ public class Utils {
         Pane pane = null;
         try {
             FXMLLoader loader = new FXMLLoader(Utils.class.getResource("/song.fxml"));
-            pane = (Pane) loader.load();
+            pane = loader.load();
             SongController songController =
-                    (SongController) loader.getController();
+                    loader.getController();
             songController.setSong(song);
         } catch (IOException e) {
             e.printStackTrace();

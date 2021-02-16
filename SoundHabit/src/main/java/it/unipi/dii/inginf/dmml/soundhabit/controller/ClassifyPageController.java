@@ -15,8 +15,6 @@ import javafx.stage.FileChooser;
 import javafx.util.Pair;
 
 import java.io.File;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ClassifyPageController {
     @FXML public BarChart barChart;
@@ -26,8 +24,6 @@ public class ClassifyPageController {
     @FXML private ProgressIndicator progressCircle;
     @FXML private Label waitLabel;
 
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
-
     /**
      ** Method called when the controller is initialized
      */
@@ -36,6 +32,9 @@ public class ClassifyPageController {
         classifyButton.setOnMouseClicked(mouseEvent -> classifySong());
     }
 
+    /**
+     * Event handler for the click on the "Select File" button
+     */
     private void selectFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("WAV Files", "*.wav"));
@@ -46,6 +45,9 @@ public class ClassifyPageController {
         }
     }
 
+    /**
+     * Event handler for the click on the "Classify" button
+     */
     private void classifySong() {
         if(filePath.getText().equals("")) {
             Utils.showErrorAlert("You have to select a file first");
@@ -76,9 +78,11 @@ public class ClassifyPageController {
         barChart.getData().addAll(series1);
     }
 
+    /**
+     * Clears the previous results (if any)
+     */
     private void clearScene() {
-        barChart.getData().clear();
-        barChart.setVisible(false);
-        waitLabel.setText("Please wait...");
+        barChart.getData().clear(); barChart.setVisible(false);
+        waitLabel.setText("Please wait..."); waitLabel.setVisible(false);
     }
 }

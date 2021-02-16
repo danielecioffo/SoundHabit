@@ -34,11 +34,15 @@ public class AdminPageController {
         neo4jDriver = Neo4jDriver.getInstance();
 
         genresComboBox.getItems().addAll(Genre.BLUES, Genre.CLASSICAL, Genre.JAZZ, Genre.METAL, Genre.POP, Genre.ROCK);
-        classifyButton.setOnMouseClicked(mouseEvent -> classifySong(mouseEvent));
+        classifyButton.setOnMouseClicked(this::classifySong);
         clearFieldsButton.setOnMouseClicked(mouseEvent -> clearFields());
         insertSongButton.setOnMouseClicked(mouseEvent -> insertSong());
     }
 
+    /**
+     * Event handler for che click on the "Classify" button
+     * @param mouseEvent    event
+     */
     private void classifySong(MouseEvent mouseEvent) {
         Node node = (Node) mouseEvent.getSource();
         Stage parentStage = (Stage) node.getScene().getWindow();
@@ -55,6 +59,9 @@ public class AdminPageController {
         }
     }
 
+    /**
+     * Event handler for the click on the "Insert Song" button
+     */
     private void insertSong() {
         if(songTitle.getText().equals("") || songAuthor.getText().equals("") || songUrl.getText().equals("")
         || imageUrl.getText().equals("") || genresComboBox.getSelectionModel().isEmpty()) {
@@ -75,6 +82,9 @@ public class AdminPageController {
         }
     }
 
+    /**
+     * Event handler for the "Clear Fields" button
+     */
     private void clearFields() {
         songTitle.setText(""); songAuthor.setText("");
         songUrl.setText(""); imageUrl.setText("");
