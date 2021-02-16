@@ -42,6 +42,7 @@ public class DiscoveryPageController {
         ObservableList<String> options =
                 FXCollections.observableArrayList(
                         "Suggested songs",
+                        "Songs liked",
                         "Song name",
                         "Song author",
                         "Blues songs",
@@ -49,7 +50,8 @@ public class DiscoveryPageController {
                         "Jazz songs",
                         "Metal songs",
                         "Pop songs",
-                        "Rock songs"
+                        "Rock songs",
+                        "Most liked songs"
                 );
         searchComboBox.setItems(options);
         searchComboBox.setValue("Suggested songs");
@@ -63,6 +65,9 @@ public class DiscoveryPageController {
         previousButton.setVisible(false); //in the first page it is not visible
 
         neo4jDriver = Neo4jDriver.getInstance();
+        List<Song> songs = neo4jDriver.getSuggestedSongs(Session.getInstance().getLoggedUser(),
+                HOW_MANY_SONGS_TO_SHOW*page, HOW_MANY_SONGS_TO_SHOW);
+        Utils.showSongs(showingVBox, songs);
     }
 
     /**
@@ -71,10 +76,28 @@ public class DiscoveryPageController {
      */
     private void search(ActionEvent actionEvent) {
         Utils.removeAllFromPane(showingVBox);
-        if (String.valueOf(searchComboBox.getValue()).equals("Song name"))
+        if (String.valueOf(searchComboBox.getValue()).equals("Suggested songs"))
+        {
+            List<Song> songs = neo4jDriver.getSuggestedSongs(Session.getInstance().getLoggedUser(),
+                    HOW_MANY_SONGS_TO_SHOW*page, HOW_MANY_SONGS_TO_SHOW);
+            Utils.showSongs(showingVBox, songs);
+        }
+        else if (String.valueOf(searchComboBox.getValue()).equals("Songs liked"))
+        {
+            List<Song> songs = neo4jDriver.searchSongsLiked(Session.getInstance().getLoggedUser(),
+                    HOW_MANY_SONGS_TO_SHOW*page, HOW_MANY_SONGS_TO_SHOW);
+            Utils.showSongs(showingVBox, songs);
+        }
+        else if (String.valueOf(searchComboBox.getValue()).equals("Song name"))
         {
             List<Song> songs = neo4jDriver.searchByName(searchBar.getText(), HOW_MANY_SONGS_TO_SHOW*page,
                     HOW_MANY_SONGS_TO_SHOW);
+            Utils.showSongs(showingVBox, songs);
+        }
+        else if (String.valueOf(searchComboBox.getValue()).equals("Song author"))
+        {
+            List<Song> songs = neo4jDriver.searchByAuthorName(searchBar.getText(),
+                    HOW_MANY_SONGS_TO_SHOW*page, HOW_MANY_SONGS_TO_SHOW);
             Utils.showSongs(showingVBox, songs);
         }
         else if (String.valueOf(searchComboBox.getValue()).equals("Blues songs"))
@@ -110,6 +133,12 @@ public class DiscoveryPageController {
         else if (String.valueOf(searchComboBox.getValue()).equals("Rock songs"))
         {
             List<Song> songs = neo4jDriver.getSongsOfGenre(Genre.ROCK, HOW_MANY_SONGS_TO_SHOW*page,
+                    HOW_MANY_SONGS_TO_SHOW);
+            Utils.showSongs(showingVBox, songs);
+        }
+        else if(String.valueOf(searchComboBox.getValue()).equals("Most liked songs"))
+        {
+            List<Song> songs = neo4jDriver.getMostLikedSongs(HOW_MANY_SONGS_TO_SHOW*page,
                     HOW_MANY_SONGS_TO_SHOW);
             Utils.showSongs(showingVBox, songs);
         }

@@ -313,6 +313,205 @@ public class Neo4jDriver {
     }
 
     /**
+     * Function that search the songs based on a portion of the author name
+     * @param partialName       Portion of the name of the author of the song
+     * @param howManySkip       How many songs skip
+     * @param howMany           How many songs obtain
+     * @return                  List of songs
+     */
+    public List<Song> searchByAuthorName (final String partialName, final int howManySkip, final int howMany)
+    {
+        List<Song> songs = new ArrayList<>();
+        try(Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (s:Song) " +
+                                "WHERE toLower(s.author) CONTAINS toLower($author) " +
+                                "RETURN s.name AS name, s.songLink AS songLink, s.author AS author, " +
+                                "s.imageLink AS imageLink, LABELS(s) AS labels " +
+                                "SKIP $skip LIMIT $limit",
+                        parameters("author", partialName, "skip", howManySkip, "limit", howMany));
+
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    String name = r.get("name").asString();
+                    String songLink = r.get("songLink").asString();
+                    String author = r.get("author").asString();
+                    String imageLink = r.get("imageLink").asString();
+                    List<Genre> genres = getGenresFromListOfLabels(r.get("labels").asList());
+                    Song song = new Song(name, genres, songLink, author, imageLink);
+                    songs.add(song);
+                }
+                return null;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return songs;
+    }
+
+    /**
+     * Function that search the songs that the user has liked
+     * @param user              User to consider
+     * @param howManySkip       How many songs skip
+     * @param howMany           How many songs obtain
+     * @return                  List of songs
+     */
+    public List<Song> searchSongsLiked (final User user, final int howManySkip, final int howMany)
+    {
+        List<Song> songs = new ArrayList<>();
+        try(Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (u:User {username: $username})-[:LIKES]->(s:Song) " +
+                                "RETURN s.name AS name, s.songLink AS songLink, s.author AS author, " +
+                                "s.imageLink AS imageLink, LABELS(s) AS labels " +
+                                "SKIP $skip LIMIT $limit",
+                        parameters("username", user.getUsername(), "skip", howManySkip, "limit", howMany));
+
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    String name = r.get("name").asString();
+                    String songLink = r.get("songLink").asString();
+                    String author = r.get("author").asString();
+                    String imageLink = r.get("imageLink").asString();
+                    List<Genre> genres = getGenresFromListOfLabels(r.get("labels").asList());
+                    Song song = new Song(name, genres, songLink, author, imageLink);
+                    songs.add(song);
+                }
+                return null;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return songs;
+    }
+
+    /**
+     * Function that search the songs the most liked songs
+     * @param howManySkip       How many songs skip
+     * @param howMany           How many songs obtain
+     * @return                  List of songs
+     */
+    public List<Song> getMostLikedSongs (final int howManySkip, final int howMany)
+    {
+        List<Song> songs = new ArrayList<>();
+        try(Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (:User)-[l:LIKES]->(s:Song) " +
+                                "RETURN s.name AS name, s.songLink AS songLink, s.author AS author, " +
+                                "s.imageLink AS imageLink, LABELS(s) AS labels, " +
+                                "COUNT(DISTINCT l) AS totLikes " +
+                                "ORDER BY totLikes DESC " +
+                                "SKIP $skip LIMIT $limit",
+                        parameters("skip", howManySkip, "limit", howMany));
+
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    String name = r.get("name").asString();
+                    String songLink = r.get("songLink").asString();
+                    String author = r.get("author").asString();
+                    String imageLink = r.get("imageLink").asString();
+                    List<Genre> genres = getGenresFromListOfLabels(r.get("labels").asList());
+                    Song song = new Song(name, genres, songLink, author, imageLink);
+                    songs.add(song);
+                }
+                return null;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return songs;
+    }
+
+    /**
+     * Function that returns the list of songs suggested to the user
+     * @param user              User to consider
+     * @param howManySkip       How many songs to skip
+     * @param howMany           How many song to obtain
+     * @return                  List of songs
+     */
+    public List<Song> getSuggestedSongs (final User user, final int howManySkip, final int howMany)
+    {
+        List<Song> songs = new ArrayList<>();
+        try(Session session = driver.session()) {
+            songs = session.readTransaction((TransactionWork<List<Song>>)tx -> {
+                // Statistics count
+                Result result = tx.run("MATCH (u:User {username: $username}) " +
+                                "OPTIONAL MATCH (u)-[bluesLike:LIKES]->(:Blues) " +
+                                "OPTIONAL MATCH (u)-[classicalLike:LIKES]->(:Classical) " +
+                                "OPTIONAL MATCH (u)-[jazzLike:LIKES]->(:Jazz) " +
+                                "OPTIONAL MATCH (u)-[metalLike:LIKES]->(:Metal) " +
+                                "OPTIONAL MATCH (u)-[popLike:LIKES]->(:Pop) " +
+                                "OPTIONAL MATCH (u)-[rockLike:LIKES]->(:Rock) " +
+                                "RETURN COUNT(DISTINCT bluesLike) AS bluesLikes, " +
+                                "COUNT(DISTINCT classicalLike) AS classicalLikes, " +
+                                "COUNT(DISTINCT jazzLike) AS jazzLikes, " +
+                                "COUNT(DISTINCT metalLike) AS metalLikes, " +
+                                "COUNT(DISTINCT popLike) AS popLikes, " +
+                                "COUNT(DISTINCT rockLike) AS rockLikes",
+                        parameters("username", user.getUsername()));
+
+                Record r = result.next();
+                int bluesLikes = r.get("bluesLikes").asInt();
+                int classicalLikes = r.get("classicalLikes").asInt();
+                int jazzLikes = r.get("jazzLikes").asInt();
+                int metalLikes = r.get("metalLikes").asInt();
+                int popLikes = r.get("popLikes").asInt();
+                int rockLikes = r.get("rockLikes").asInt();
+
+                int[] counters = {bluesLikes, classicalLikes, jazzLikes, metalLikes, popLikes, rockLikes};
+                Arrays.sort(counters); //ascending order
+                int max = counters[counters.length-1];
+
+                if (max != 0) // if there is at least one genre liked
+                {
+                    Genre genre = null;
+                    if (bluesLikes == max)
+                    {
+                        genre = Genre.BLUES;
+                    }
+                    else if (classicalLikes == max)
+                    {
+                        genre = Genre.CLASSICAL;
+                    }
+                    else if (jazzLikes == max)
+                    {
+                        genre = Genre.JAZZ;
+                    }
+                    else if (metalLikes == max)
+                    {
+                        genre = Genre.METAL;
+                    }
+                    else if (popLikes == max)
+                    {
+                        genre = Genre.POP;
+                    }
+                    else if (rockLikes == max)
+                    {
+                        genre = Genre.ROCK;
+                    }
+                    return getSongsOfGenre(genre, howManySkip, howMany);
+                }
+                else
+                {
+                    return new ArrayList<>();
+                }
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return songs;
+    }
+
+
+    /**
      * Function that obtain the genres from the list of labels of the node
      * @param list          List of labels
      * @return              List of genre
