@@ -36,13 +36,17 @@ public class SongController {
         authorLabel.setText("Author: " + song.getAuthor());
         genreLabel.setText("Genre: " + song.getGenre().toProperCase());
         linkLabel.setText("Link: " + song.getSongLink());
-        if (song.getImageLink() != null)
-        {
-            songImageView.setImage(new Image(song.getImageLink()));
+        if (song.getImageLink() != null) {
+            try {
+                songImageView.setImage(new Image(song.getImageLink()));
+            } catch(Exception e) {
+                songImageView.setImage(new Image("img/defaultSong.png"));
+            }
         }
         else {
             songImageView.setImage(new Image("img/defaultSong.png"));
         }
+
         if(neo4jDriver.isThisSongLikedByUser(Session.getInstance().getLoggedUser(), song))
             songLikeImageView.setImage(new Image("img/alreadyliked.png"));
     }
