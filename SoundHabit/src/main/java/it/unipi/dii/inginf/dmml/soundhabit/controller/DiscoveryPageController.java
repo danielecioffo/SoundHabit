@@ -71,7 +71,13 @@ public class DiscoveryPageController {
      */
     private void search(ActionEvent actionEvent) {
         Utils.removeAllFromPane(showingVBox);
-        if (String.valueOf(searchComboBox.getValue()).equals("Blues songs"))
+        if (String.valueOf(searchComboBox.getValue()).equals("Song name"))
+        {
+            List<Song> songs = neo4jDriver.searchByName(searchBar.getText(), HOW_MANY_SONGS_TO_SHOW*page,
+                    HOW_MANY_SONGS_TO_SHOW);
+            Utils.showSongs(showingVBox, songs);
+        }
+        else if (String.valueOf(searchComboBox.getValue()).equals("Blues songs"))
         {
             List<Song> songs = neo4jDriver.getSongsOfGenre(Genre.BLUES, HOW_MANY_SONGS_TO_SHOW*page,
                     HOW_MANY_SONGS_TO_SHOW);

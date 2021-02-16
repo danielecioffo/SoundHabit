@@ -9,6 +9,7 @@ import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.neo4j.driver.Values.NULL;
 import static org.neo4j.driver.Values.parameters;
@@ -272,6 +273,70 @@ public class Neo4jDriver {
             e.printStackTrace();
         }
         return songs;
+    }
+
+    /**
+     * Function that search the songs based on a portion of the name
+     * @param partialName       Portion of the name of the song
+     * @param howManySkip       How many songs skip
+     * @param howMany           How many songs obtain
+     * @return                  List of songs
+     */
+    public List<Song> searchByName (final String partialName, final int howManySkip, final int howMany)
+    {
+        List<Song> songs = new ArrayList<>();
+        try(Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (s:Song) " +
+                                "WHERE toLower(s.name) CONTAINS toLower($name) " +
+                                "RETURN s.name AS name, s.songLink AS songLink, s.author AS author, " +
+                                "s.imageLink AS imageLink, LABELS(s) AS labels " +
+                                "SKIP $skip LIMIT $limit",
+                        parameters("name", partialName, "skip", howManySkip, "limit", howMany));
+
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    List<Genre> genres = getGenresFromListOfLabels(r.get("labels").asList());
+                    String name = r.get("name").asString();
+                    String songLink = r.get("songLink").asString();
+                    String author = r.get("author").asString();
+                    String imageLink = r.get("imageLink").asString();
+                    Song song = new Song(name, genres.get(0), songLink, author, imageLink);
+                    songs.add(song);
+                }
+                return null;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return songs;
+    }
+
+    /**
+     * Function that obtain the genres from the list of labels of the node
+     * @param list          List of labels
+     * @return              List of genre
+     */
+    private List<Genre> getGenresFromListOfLabels (List<Object> list)
+    {
+        List<Genre> genres = new ArrayList<>();
+        List<String> labels = list.stream()
+                .map(object -> Objects.toString(object, null))
+                .collect(Collectors.toList());
+        for (String label: labels)
+        {
+            switch (label) {
+                case "Blues":   genres.add(Genre.BLUES);
+                case "Classical": genres.add(Genre.CLASSICAL);
+                case "Jazz": genres.add(Genre.JAZZ);
+                case "Metal": genres.add(Genre.METAL);
+                case "Pop": genres.add(Genre.POP);
+                case "Rock": genres.add(Genre.ROCK);
+            }
+        }
+        return genres;
     }
 
     public void populateDatabase() {
