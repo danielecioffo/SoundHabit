@@ -8,10 +8,7 @@ import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import org.neo4j.driver.*;
 import org.neo4j.driver.exceptions.ClientException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.neo4j.driver.Values.NULL;
 import static org.neo4j.driver.Values.parameters;
@@ -203,8 +200,8 @@ public class Neo4jDriver {
         try(Session session = driver.session())
         {
             session.writeTransaction((TransactionWork<Integer>) tx -> {
-                tx.run("MATCH (u:User) WHERE u.username=$username " +
-                        "MATCH (s:SONG) WHERE s.name=$name AND s.author=$author " +
+                tx.run("MATCH (u:User {username: $username}) " +
+                        "MATCH (s:Song {name: $name, author: $author}) " +
                         "MERGE (u)-[:LIKES]->(s)",
                         parameters("username",user.getUsername(),"name",song.getName(),
                                 "author", song.getAuthor()));
@@ -227,8 +224,8 @@ public class Neo4jDriver {
         try(Session session = driver.session())
         {
             session.writeTransaction((TransactionWork<Integer>) tx -> {
-                tx.run("MATCH (u:User {username:$username})-[l:LIKES]->(s:Song {name: $name, author: $author})" +
-                        " delete l",
+                tx.run("MATCH (u:User {username:$username})-[l:LIKES]->(s:Song {name: $name, author: $author}) " +
+                        "DELETE l",
                         parameters("username", user.getUsername(),"name", song.getName(),
                                 "author", song.getAuthor()));
                 return null;
@@ -238,6 +235,43 @@ public class Neo4jDriver {
         {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Function that returns the songs of a specific genre
+     * @param genre             Genre to consider
+     * @param howManySkip       How many songs to skip
+     * @param howMany           How many song to obtain
+     * @return                  List of songs
+     */
+    public List<Song> getSongsOfGenre (final Genre genre, final int howManySkip, final int howMany)
+    {
+        List<Song> songs = new ArrayList<>();
+        try(Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (s:" + genre.toProperCase() + ")" +
+                                "RETURN s.name AS name, s.songLink AS songLink, s.author AS author, " +
+                                "s.imageLink AS imageLink " +
+                                "SKIP $skip LIMIT $limit",
+                        parameters("skip", howManySkip, "limit", howMany));
+
+                while(result.hasNext()){
+                    Record r = result.next();
+                    String name = r.get("name").asString();
+                    String songLink = r.get("songLink").asString();
+                    String author = r.get("author").asString();
+                    String imageLink = r.get("imageLink").asString();
+                    Song song = new Song(name, genre, songLink, author, imageLink);
+                    songs.add(song);
+                }
+                return null;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return songs;
     }
 
     public void populateDatabase() {

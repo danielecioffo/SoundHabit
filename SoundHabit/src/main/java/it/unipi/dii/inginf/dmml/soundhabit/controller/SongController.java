@@ -30,10 +30,6 @@ public class SongController {
         songLikeImageView.setOnMouseClicked(actionEvent -> handleClickOnLike());
     }
 
-    public Song getSong() {
-        return song;
-    }
-
     public void setSong(Song song) {
         this.song = song;
         nameLabel.setText("Name: " + song.getName());
@@ -58,12 +54,12 @@ public class SongController {
     {
         if(neo4jDriver.isThisSongLikedByUser(Session.getInstance().getLoggedUser(), song))
         {
-            //neo4jDriver.unlike(Session.getInstance().getLoggedUser(), song);
+            neo4jDriver.unlike(Session.getInstance().getLoggedUser(), song);
             songLikeImageView.setImage(new Image("img/like.png"));
         }
         else
         {
-            // neo4jDriver.like(Session.getInstance().getLoggedUser(), song);
+            neo4jDriver.like(Session.getInstance().getLoggedUser(), song);
             songLikeImageView.setImage(new Image("img/alreadyliked.png"));
         }
     }

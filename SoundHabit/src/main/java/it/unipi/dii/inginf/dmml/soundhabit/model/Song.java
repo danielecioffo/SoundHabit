@@ -54,4 +54,15 @@ public class Song {
     public void setImageLink(String imageLink) {
         this.imageLink = imageLink;
     }
+
+    @Override
+    public String toString() {
+        return "Song{" +
+                "name='" + name + '\'' +
+                ", genre=" + genre +
+                ", songLink='" + songLink + '\'' +
+                ", author='" + author + '\'' +
+                ", imageLink='" + imageLink + '\'' +
+                '}';
+    }
 }
