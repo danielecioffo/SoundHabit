@@ -15,13 +15,20 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminPageController {
     @FXML private TextField songTitle;
     @FXML private TextField songAuthor;
     @FXML private TextField songUrl;
     @FXML private TextField imageUrl;
-    @FXML private ComboBox genresComboBox;
+    @FXML private CheckBox bluesBox;
+    @FXML private CheckBox classicalBox;
+    @FXML private CheckBox jazzBox;
+    @FXML private CheckBox metalBox;
+    @FXML private CheckBox popBox;
+    @FXML private CheckBox rockBox;
     @FXML private Button classifyButton;
     @FXML private Button clearFieldsButton;
     @FXML private Button insertSongButton;
@@ -33,7 +40,6 @@ public class AdminPageController {
     public void initialize() {
         neo4jDriver = Neo4jDriver.getInstance();
 
-        genresComboBox.getItems().addAll(Genre.BLUES, Genre.CLASSICAL, Genre.JAZZ, Genre.METAL, Genre.POP, Genre.ROCK);
         classifyButton.setOnMouseClicked(this::classifySong);
         clearFieldsButton.setOnMouseClicked(mouseEvent -> clearFields());
         insertSongButton.setOnMouseClicked(mouseEvent -> insertSong());
@@ -63,14 +69,19 @@ public class AdminPageController {
      * Event handler for the click on the "Insert Song" button
      */
     private void insertSong() {
-        if(songTitle.getText().equals("") || songAuthor.getText().equals("") || songUrl.getText().equals("")
-        || imageUrl.getText().equals("") || genresComboBox.getSelectionModel().isEmpty()) {
+        if(songTitle.getText().equals("") || songAuthor.getText().equals("") || songUrl.getText().equals("") || imageUrl.getText().equals("")
+                || ( !bluesBox.isSelected() && !classicalBox.isSelected() && !jazzBox.isSelected() && !metalBox.isSelected() && !popBox.isSelected() && !rockBox.isSelected())) {
             Utils.showErrorAlert("You have to fill all the fields!");
             return;
         }
 
-        Genre songGenre = (Genre) genresComboBox.getSelectionModel().getSelectedItem();
-        Song newSong = new Song(songTitle.getText(), songGenre, songUrl.getText(), songAuthor.getText(), imageUrl.getText());
+        List<Genre> genreList = getSelectedGenres();
+        if(genreList.isEmpty()) { // Something went wrong
+            Utils.showErrorAlert("Please select at least one genre!");
+            return;
+        }
+
+        Song newSong = new Song(songTitle.getText(), genreList, songUrl.getText(), songAuthor.getText(), imageUrl.getText());
 
         boolean insert = neo4jDriver.addSong(newSong);
 
@@ -82,12 +93,34 @@ public class AdminPageController {
         }
     }
 
+    private ArrayList<Genre> getSelectedGenres() {
+        ArrayList<Genre> genres = new ArrayList<>();
+
+        if(bluesBox.isSelected())
+            genres.add(Genre.BLUES);
+        if(classicalBox.isSelected())
+            genres.add(Genre.CLASSICAL);
+        if(jazzBox.isSelected())
+            genres.add(Genre.JAZZ);
+        if(metalBox.isSelected())
+            genres.add(Genre.METAL);
+        if(rockBox.isSelected())
+            genres.add(Genre.ROCK);
+
+        return genres;
+    }
+
     /**
      * Event handler for the "Clear Fields" button
      */
     private void clearFields() {
         songTitle.setText(""); songAuthor.setText("");
         songUrl.setText(""); imageUrl.setText("");
-        genresComboBox.getSelectionModel().clearSelection();
+        bluesBox.setSelected(false);
+        classicalBox.setSelected(false);
+        jazzBox.setSelected(false);
+        metalBox.setSelected(false);
+        popBox.setSelected(false);
+        rockBox.setSelected(false);
     }
 }

@@ -1,5 +1,6 @@
 package it.unipi.dii.inginf.dmml.soundhabit.controller;
 
+import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Session;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import it.unipi.dii.inginf.dmml.soundhabit.persistence.Neo4jDriver;
@@ -34,7 +35,7 @@ public class SongController {
         this.song = song;
         nameLabel.setText("Name: " + song.getName());
         authorLabel.setText("Author: " + song.getAuthor());
-        genreLabel.setText("Genre: " + song.getGenre().toProperCase());
+        genreLabel.setText("Genre:" + song.getGenresString());
         linkLabel.setText("Link: " + song.getSongLink());
         if (song.getImageLink() != null) {
             try {

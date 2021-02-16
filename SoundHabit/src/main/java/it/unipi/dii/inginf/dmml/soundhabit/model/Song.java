@@ -1,13 +1,15 @@
 package it.unipi.dii.inginf.dmml.soundhabit.model;
 
+import java.util.List;
+
 public class Song {
     private String name;
-    private Genre genre;
+    private List<Genre> genre;
     private String songLink;
     private String author;
     private String imageLink;
 
-    public Song(String name, Genre genre, String songLink, String author, String imageLink) {
+    public Song(String name, List<Genre> genre, String songLink, String author, String imageLink) {
         this.name = name;
         this.genre = genre;
         this.songLink = songLink;
@@ -23,11 +25,23 @@ public class Song {
         this.name = name;
     }
 
-    public Genre getGenre() {
+    public List<Genre> getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public String getGenresString() {
+        StringBuilder genres = new StringBuilder();
+        for(int i = 0; i<genre.size(); i++) {
+            Genre g = genre.get(i);
+            genres.append(" ").append(g.toProperCase());
+            if(i != genre.size() -1) {
+                genres.append(";");
+            }
+        }
+        return String.valueOf(genres);
+    }
+
+    public void setGenre(List<Genre> genre) {
         this.genre = genre;
     }
 
