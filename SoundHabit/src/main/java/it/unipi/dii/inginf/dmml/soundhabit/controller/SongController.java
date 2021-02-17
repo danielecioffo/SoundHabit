@@ -3,11 +3,15 @@ package it.unipi.dii.inginf.dmml.soundhabit.controller;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Session;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import it.unipi.dii.inginf.dmml.soundhabit.persistence.Neo4jDriver;
+import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
@@ -46,12 +50,20 @@ public class SongController {
             linkLabel.setText("Link: ");
             hyperlink.setText(song.getSongLink());
             hyperlink.setOnMouseClicked(event -> {
-                if(Desktop.isDesktopSupported()) {
+                if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                     try {
                         Desktop.getDesktop().browse(URI.create(hyperlink.getText()));
                     } catch (IOException e) {
                         hyperlink.setText("");
                     }
+                }
+                else
+                {
+                    final Clipboard cb = Clipboard.getSystemClipboard();
+                    final ClipboardContent content = new ClipboardContent();
+                    content.putString(hyperlink.getText());
+                    cb.setContent(content);
+                    Utils.showInfoAlert("I can't open the browser, but the link is copied");
                 }
             });
         } else {
