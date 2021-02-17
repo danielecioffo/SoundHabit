@@ -53,12 +53,9 @@ public class FeatureExtractor {
             bufferedReader.close();
             return songFeature;
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        catch (Exception e) {
+            return null;
         }
-
-        return null;
     }
 
     /**
