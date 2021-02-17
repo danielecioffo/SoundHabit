@@ -25,8 +25,8 @@
       </ImageView>
       <HBox layoutX="256.0" layoutY="93.0" prefHeight="25.0" prefWidth="340.0">
          <children>
-            <Label fx:id="linkLabel" prefHeight="25.0" prefWidth="29.0" text="Link" />
-            <Hyperlink fx:id="hyperlink" alignment="TOP_LEFT" prefHeight="23.0" prefWidth="251.0" />
+            <Label fx:id="linkLabel" prefHeight="25.0" prefWidth="49.0" text="Link" />
+            <Hyperlink fx:id="hyperlink" alignment="TOP_LEFT" prefHeight="23.0" prefWidth="297.0" />
          </children>
       </HBox>
    </children>
