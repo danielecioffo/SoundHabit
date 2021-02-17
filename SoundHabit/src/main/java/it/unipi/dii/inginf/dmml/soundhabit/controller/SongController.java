@@ -1,14 +1,18 @@
 package it.unipi.dii.inginf.dmml.soundhabit.controller;
 
-import it.unipi.dii.inginf.dmml.soundhabit.model.Genre;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Session;
 import it.unipi.dii.inginf.dmml.soundhabit.model.Song;
 import it.unipi.dii.inginf.dmml.soundhabit.persistence.Neo4jDriver;
 import javafx.fxml.FXML;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
 
 public class SongController {
     private Song song; // Song to handle
@@ -20,6 +24,7 @@ public class SongController {
     @FXML private Label authorLabel;
     @FXML private Label genreLabel;
     @FXML private Label linkLabel;
+    @FXML private Hyperlink hyperlink;
 
 
     /**
@@ -38,7 +43,17 @@ public class SongController {
         genreLabel.setText("Genre: " + song.getGenresString("; "));
 
         if (song.getSongLink() != null && !song.getSongLink().equals("null")) {
-            linkLabel.setText("Link: " + song.getSongLink());
+            linkLabel.setText("Link: ");
+            hyperlink.setText(song.getSongLink());
+            hyperlink.setOnMouseClicked(event -> {
+                if(Desktop.isDesktopSupported()) {
+                    try {
+                        Desktop.getDesktop().browse(URI.create(hyperlink.getText()));
+                    } catch (IOException e) {
+                        hyperlink.setText("");
+                    }
+                }
+            });
         } else {
             linkLabel.setText(" ");
         }

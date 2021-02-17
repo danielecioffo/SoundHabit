@@ -5,8 +5,6 @@ import it.unipi.dii.inginf.dmml.soundhabit.classification.FeatureExtractor;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.SongFeature;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -63,7 +61,7 @@ public class ClassifyPageController {
 
         Task<Pair<Integer, double[]>> classifyTask = new Task<>() {
             @Override
-            protected Pair<Integer, double[]> call() throws Exception {
+            protected Pair<Integer, double[]> call() {
                 Classifier classifier = Classifier.getInstance();
                 FeatureExtractor f = new FeatureExtractor();
                 SongFeature song = f.getSongFeaturesOfSong(filePath.getText());
