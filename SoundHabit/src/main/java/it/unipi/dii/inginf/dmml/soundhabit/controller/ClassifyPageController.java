@@ -89,13 +89,19 @@ public class ClassifyPageController {
             barChart.getData().addAll(series1);
         });
 
-        new Thread(classifyTask).start(); //TODO handle exception
+        classifyTask.setOnFailed(event -> {
+            Utils.showErrorAlert("Service unavailable. Please try again");
+            clearScene();
+        });
+
+        new Thread(classifyTask).start();
     }
 
     /**
      * Clears the previous results (if any)
      */
     private void clearScene() {
+        progressCircle.setVisible(false);
         barChart.getData().clear(); barChart.setVisible(false);
         waitLabel.setText("Please wait..."); waitLabel.setVisible(false);
     }
