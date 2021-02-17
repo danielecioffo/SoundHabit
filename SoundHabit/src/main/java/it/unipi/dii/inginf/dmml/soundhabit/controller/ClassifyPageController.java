@@ -4,6 +4,9 @@ import it.unipi.dii.inginf.dmml.soundhabit.classification.Classifier;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.FeatureExtractor;
 import it.unipi.dii.inginf.dmml.soundhabit.classification.SongFeature;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -58,24 +61,35 @@ public class ClassifyPageController {
         progressCircle.setVisible(true);
         waitLabel.setVisible(true);
 
-        Classifier classifier = Classifier.getInstance();
-        FeatureExtractor f = new FeatureExtractor();
-        SongFeature song = f.getSongFeaturesOfSong(filePath.getText());
-        Pair<Integer, double[]> classify = classifier.classify(song.toInstances());
+        Task<Pair<Integer, double[]>> classifyTask = new Task<>() {
+            @Override
+            protected Pair<Integer, double[]> call() throws Exception {
+                Classifier classifier = Classifier.getInstance();
+                FeatureExtractor f = new FeatureExtractor();
+                SongFeature song = f.getSongFeaturesOfSong(filePath.getText());
+                Pair<Integer, double[]> classify = classifier.classify(song.toInstances());
+                return classify;
+            }
+        };
 
-        progressCircle.setVisible(false);
-        waitLabel.setText("The genre is " + Utils.integerToGenre(classify.getKey()));
-        barChart.setVisible(true);
+        classifyTask.setOnSucceeded(event -> {
+            Pair<Integer,double[]> classify = classifyTask.getValue();
+            progressCircle.setVisible(false);
+            waitLabel.setText("The genre is " + Utils.integerToGenre(classify.getKey()));
+            barChart.setVisible(true);
 
-        XYChart.Series series1 = new XYChart.Series();
-        series1.setName("% Affinity");
-        series1.getData().add(new XYChart.Data("BLUES", classify.getValue()[0] * 100));
-        series1.getData().add(new XYChart.Data("CLASSICAL", classify.getValue()[1] * 100));
-        series1.getData().add(new XYChart.Data("JAZZ", classify.getValue()[2] * 100));
-        series1.getData().add(new XYChart.Data("METAL", classify.getValue()[3] * 100));
-        series1.getData().add(new XYChart.Data("POP", classify.getValue()[4] * 100));
-        series1.getData().add(new XYChart.Data("ROCK", classify.getValue()[5] * 100));
-        barChart.getData().addAll(series1);
+            XYChart.Series series1 = new XYChart.Series();
+            series1.setName("% Affinity");
+            series1.getData().add(new XYChart.Data("BLUES", classify.getValue()[0] * 100));
+            series1.getData().add(new XYChart.Data("CLASSICAL", classify.getValue()[1] * 100));
+            series1.getData().add(new XYChart.Data("JAZZ", classify.getValue()[2] * 100));
+            series1.getData().add(new XYChart.Data("METAL", classify.getValue()[3] * 100));
+            series1.getData().add(new XYChart.Data("POP", classify.getValue()[4] * 100));
+            series1.getData().add(new XYChart.Data("ROCK", classify.getValue()[5] * 100));
+            barChart.getData().addAll(series1);
+        });
+
+        new Thread(classifyTask).start(); //TODO handle exception
     }
 
     /**
