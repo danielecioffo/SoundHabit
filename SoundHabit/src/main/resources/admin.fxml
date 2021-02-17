@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -33,26 +34,6 @@
                </font>
             </Label>
             <TextField fx:id="songAuthor" layoutX="521.0" layoutY="134.0" prefHeight="36.0" prefWidth="231.0" promptText="Insert author...">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </TextField>
-            <Label layoutX="40.0" layoutY="220.0" text="Link to the song:">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <TextField fx:id="songUrl" layoutX="224.0" layoutY="218.0" prefHeight="36.0" prefWidth="541.0" promptText="Insert song URL...">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </TextField>
-            <Label layoutX="40.0" layoutY="308.0" text="Link to the image:">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <TextField fx:id="imageUrl" layoutX="225.0" layoutY="306.0" prefHeight="36.0" prefWidth="541.0" promptText="Insert image URL...">
                <font>
                   <Font size="15.0" />
                </font>
@@ -107,6 +88,34 @@
                   <Font size="15.0" />
                </font>
             </CheckBox>
+            <HBox layoutX="40.0" layoutY="215.0" prefHeight="58.0" prefWidth="740.0">
+               <children>
+                  <Label prefHeight="32.0" prefWidth="239.0" text="Link to the song:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="songUrl" prefHeight="36.0" prefWidth="497.0" promptText="Insert song URL...">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox layoutX="40.0" layoutY="292.0" prefHeight="58.0" prefWidth="740.0">
+               <children>
+                  <Label prefHeight="32.0" prefWidth="239.0" text="Link to the image:">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="imageUrl" prefHeight="36.0" prefWidth="495.0" promptText="Insert image URL...">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
       </children>
     </AnchorPane>
   </children>

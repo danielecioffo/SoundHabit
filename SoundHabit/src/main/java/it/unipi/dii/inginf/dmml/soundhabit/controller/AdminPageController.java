@@ -69,9 +69,9 @@ public class AdminPageController {
      * Event handler for the click on the "Insert Song" button
      */
     private void insertSong() {
-        if(songTitle.getText().equals("") || songAuthor.getText().equals("") || songUrl.getText().equals("") || imageUrl.getText().equals("")
+        if(songTitle.getText().equals("") || songAuthor.getText().equals("")
                 || ( !bluesBox.isSelected() && !classicalBox.isSelected() && !jazzBox.isSelected() && !metalBox.isSelected() && !popBox.isSelected() && !rockBox.isSelected())) {
-            Utils.showErrorAlert("You have to fill all the fields!");
+            Utils.showErrorAlert("You have to fill at least the title, author and genre fields!");
             return;
         }
 
@@ -81,7 +81,19 @@ public class AdminPageController {
             return;
         }
 
-        Song newSong = new Song(songTitle.getText(), genreList, songUrl.getText(), songAuthor.getText(), imageUrl.getText());
+        String url;
+        if(songUrl.getText().equals(""))
+            url = null;
+        else
+            url = songUrl.getText();
+
+        String image;
+        if(imageUrl.getText().equals(""))
+            image = null;
+        else
+            image = imageUrl.getText();
+
+        Song newSong = new Song(songTitle.getText(), genreList, url, songAuthor.getText(), image);
 
         boolean insert = neo4jDriver.addSong(newSong);
 
