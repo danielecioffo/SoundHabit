@@ -11,10 +11,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class DiscoveryPageController {
     @FXML private VBox showingVBox;
 
     private final int HOW_MANY_SONGS_TO_SHOW = 5;
+    private final int LIKE_THRESHOLD = 5;
     private int page; // number of page (at the beginning at 0), increase with nextButton and decrease with previousButton
     private Neo4jDriver neo4jDriver;
 
@@ -65,9 +68,32 @@ public class DiscoveryPageController {
         previousButton.setVisible(false); //in the first page it is not visible
 
         neo4jDriver = Neo4jDriver.getInstance();
-        List<Song> songs = neo4jDriver.getSuggestedSongs(Session.getInstance().getLoggedUser(),
+        showSuggestedSongs();
+    }
+
+    /**
+     * Function that shows the suggested songs
+     */
+    private void showSuggestedSongs ()
+    {
+        List<Song> songs = neo4jDriver.getSuggestedSongsConsideringLike(Session.getInstance().getLoggedUser(),
+                LIKE_THRESHOLD,HOW_MANY_SONGS_TO_SHOW*page, HOW_MANY_SONGS_TO_SHOW);
+        if (songs.size() != 0)
+        {
+            Label label = new Label("What others likes");
+            label.setFont(Font.font(36));
+            showingVBox.getChildren().add(label);
+            Utils.showSongs(showingVBox, songs);
+        }
+        songs = neo4jDriver.getSuggestedSongsConsideringGenre(Session.getInstance().getLoggedUser(),
                 HOW_MANY_SONGS_TO_SHOW*page, HOW_MANY_SONGS_TO_SHOW);
-        Utils.showSongs(showingVBox, songs);
+        if (songs.size() != 0)
+        {
+            Label label = new Label("Most liked genre");
+            label.setFont(Font.font(36));
+            showingVBox.getChildren().add(label);
+            Utils.showSongs(showingVBox, songs);
+        }
     }
 
     /**
@@ -78,9 +104,7 @@ public class DiscoveryPageController {
         Utils.removeAllFromPane(showingVBox);
         if (String.valueOf(searchComboBox.getValue()).equals("Suggested songs"))
         {
-            List<Song> songs = neo4jDriver.getSuggestedSongs(Session.getInstance().getLoggedUser(),
-                    HOW_MANY_SONGS_TO_SHOW*page, HOW_MANY_SONGS_TO_SHOW);
-            Utils.showSongs(showingVBox, songs);
+            showSuggestedSongs();
         }
         else if (String.valueOf(searchComboBox.getValue()).equals("Songs liked"))
         {

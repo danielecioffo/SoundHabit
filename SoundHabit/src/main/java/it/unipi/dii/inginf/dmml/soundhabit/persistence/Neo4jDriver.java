@@ -430,12 +430,13 @@ public class Neo4jDriver {
 
     /**
      * Function that returns the list of songs suggested to the user
+     * The songs of the most liked genre will be shown
      * @param user              User to consider
      * @param howManySkip       How many songs to skip
      * @param howMany           How many song to obtain
      * @return                  List of songs
      */
-    public List<Song> getSuggestedSongs (final User user, final int howManySkip, final int howMany)
+    public List<Song> getSuggestedSongsConsideringGenre (final User user, final int howManySkip, final int howMany)
     {
         List<Song> songs = new ArrayList<>();
         try(Session session = driver.session()) {
@@ -456,6 +457,7 @@ public class Neo4jDriver {
                                 "COUNT(DISTINCT rockLike) AS rockLikes",
                         parameters("username", user.getUsername()));
 
+                List<Song> songList = new ArrayList<>();
                 Record r = result.next();
                 int bluesLikes = r.get("bluesLikes").asInt();
                 int classicalLikes = r.get("classicalLikes").asInt();
@@ -495,12 +497,57 @@ public class Neo4jDriver {
                     {
                         genre = Genre.ROCK;
                     }
-                    return getSongsOfGenre(genre, howManySkip, howMany);
+                    songList.addAll(getSongsOfGenre(genre, howManySkip, howMany));
                 }
-                else
-                {
-                    return new ArrayList<>();
+
+                return songList;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return songs;
+    }
+
+    /**
+     * Function that returns the list of songs suggested to the user (considering like)
+     * A song is suggested if is liked by one other user that likes at least LIKE_THRESHOLD songs that the user like
+     * The idea is that if some other user likes the songs that I likes, probably we have similar taste
+     * Only the songs which for now the user don't like will be showed
+     * @param user              User to consider
+     * @param likeThreshold     Threshold for the number of likes
+     * @param howManySkip       How many songs to skip
+     * @param howMany           How many song to obtain
+     * @return                  List of songs
+     */
+    public List<Song> getSuggestedSongsConsideringLike (final User user, final int likeThreshold,
+                                                        final int howManySkip, final int howMany)
+    {
+        List<Song> songs = new ArrayList<>();
+        try(Session session = driver.session()) {
+            session.readTransaction(tx -> {
+                Result result = tx.run("MATCH (s:Song)<-[:LIKES]-(:User)-[l:LIKES]->(:Song)<-[:LIKES]-(u:User {username: $username}) " +
+                                "WITH COUNT(DISTINCT l) AS like, s " +
+                                "WHERE like >= $likeThreshold " +
+                                "RETURN s.name AS name, s.songLink AS songLink, s.author AS author, " +
+                                "s.imageLink AS imageLink, LABELS(s) AS labels " +
+                                "SKIP $skip LIMIT $limit",
+                        parameters("username", user.getUsername(),"likeThreshold", likeThreshold,
+                                "skip", howManySkip, "limit", howMany));
+
+                while (result.hasNext()) {
+                    Record r = result.next();
+                    String name = r.get("name").asString();
+                    String songLink = r.get("songLink").asString();
+                    String author = r.get("author").asString();
+                    String imageLink = r.get("imageLink").asString();
+                    List<Genre> genres = getGenresFromListOfLabels(r.get("labels").asList());
+                    Song song = new Song(name, genres, songLink, author, imageLink);
+                    songs.add(song);
                 }
+
+                return null;
             });
         }
         catch (Exception e)
