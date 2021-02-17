@@ -4,14 +4,14 @@ import java.util.List;
 
 public class Song {
     private String name;
-    private List<Genre> genre;
+    private List<Genre> genreList;
     private String songLink;
     private String author;
     private String imageLink;
 
-    public Song(String name, List<Genre> genre, String songLink, String author, String imageLink) {
+    public Song(String name, List<Genre> genreList, String songLink, String author, String imageLink) {
         this.name = name;
-        this.genre = genre;
+        this.genreList = genreList;
         this.songLink = songLink;
         this.author = author;
         this.imageLink = imageLink;
@@ -25,24 +25,24 @@ public class Song {
         this.name = name;
     }
 
-    public List<Genre> getGenre() {
-        return genre;
+    public List<Genre> getGenreList() {
+        return genreList;
     }
 
     public String getGenresString(String delimiter) {
         StringBuilder genres = new StringBuilder();
-        for(int i = 0; i<genre.size(); i++) {
-            Genre g = genre.get(i);
+        for(int i = 0; i< genreList.size(); i++) {
+            Genre g = genreList.get(i);
             genres.append(g.toProperCase());
-            if(i != genre.size() -1) {
+            if(i != genreList.size() -1) {
                 genres.append(delimiter);
             }
         }
         return String.valueOf(genres);
     }
 
-    public void setGenre(List<Genre> genre) {
-        this.genre = genre;
+    public void setGenreList(List<Genre> genreList) {
+        this.genreList = genreList;
     }
 
     public String getSongLink() {
@@ -73,7 +73,7 @@ public class Song {
     public String toString() {
         return "Song{" +
                 "name='" + name + '\'' +
-                ", genre=" + genre +
+                ", genre=" + getGenresString("; ") +
                 ", songLink='" + songLink + '\'' +
                 ", author='" + author + '\'' +
                 ", imageLink='" + imageLink + '\'' +

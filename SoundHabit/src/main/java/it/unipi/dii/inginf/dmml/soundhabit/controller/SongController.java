@@ -36,8 +36,14 @@ public class SongController {
         nameLabel.setText("Name: " + song.getName());
         authorLabel.setText("Author: " + song.getAuthor());
         genreLabel.setText("Genre: " + song.getGenresString("; "));
-        linkLabel.setText("Link: " + song.getSongLink());
-        if (song.getImageLink() != null) {
+
+        if (song.getSongLink() != null && !song.getSongLink().equals("null")) {
+            linkLabel.setText("Link: " + song.getSongLink());
+        } else {
+            linkLabel.setText(" ");
+        }
+
+        if (song.getImageLink() != null && !song.getImageLink().equals("null")) {
             try {
                 songImageView.setImage(new Image(song.getImageLink(), true));
             } catch(Exception e) {
