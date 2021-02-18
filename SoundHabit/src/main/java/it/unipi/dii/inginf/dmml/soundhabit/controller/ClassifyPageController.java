@@ -58,6 +58,7 @@ public class ClassifyPageController {
         clearScene();
         progressCircle.setVisible(true);
         waitLabel.setVisible(true);
+        classifyButton.setDisable(true);
 
         Task<Pair<Integer, double[]>> classifyTask = new Task<>() {
             @Override
@@ -85,11 +86,14 @@ public class ClassifyPageController {
             series1.getData().add(new XYChart.Data("POP", classify.getValue()[4] * 100));
             series1.getData().add(new XYChart.Data("ROCK", classify.getValue()[5] * 100));
             barChart.getData().addAll(series1);
+
+            classifyButton.setDisable(false);
         });
 
         classifyTask.setOnFailed(event -> {
             Utils.showErrorAlert("Service unavailable. Please try again");
             clearScene();
+            classifyButton.setDisable(false);
         });
 
         new Thread(classifyTask).start();
