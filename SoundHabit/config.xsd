@@ -9,6 +9,7 @@
 				<xs:element name="neo4jPassword" type="xs:string"/>
 				<xs:element name="featureExtractorServerIp" type="xs:string"/>
 				<xs:element name="featureExtractorServerPort" type="xs:string"/>
+				<xs:element name="datasetPath" type="xs:string"/>
 			</xs:sequence>
 		</xs:complexType>
     </xs:element>

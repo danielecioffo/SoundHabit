@@ -22,13 +22,14 @@ import static java.lang.Thread.sleep;
  * There is no need to modify this value, so there are only the getters methods
  */
 public class ConfigurationParameters {
-    public static volatile ConfigurationParameters instance;
+    private static volatile ConfigurationParameters instance;
     private String neo4jIp;
     private int neo4jPort;
     private String neo4jUsername;
     private String neo4jPassword;
     private String featureExtractorServerIp;
     private int featureExtractorServerPort;
+    private String datasetPath;
 
     public static ConfigurationParameters getInstance(){
         if(instance == null)
@@ -125,5 +126,9 @@ public class ConfigurationParameters {
 
     public int getFeatureExtractorServerPort() {
         return featureExtractorServerPort;
+    }
+
+    public String getDatasetPath() {
+        return datasetPath;
     }
 }

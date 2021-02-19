@@ -1,5 +1,6 @@
 package it.unipi.dii.inginf.dmml.soundhabit.classification;
 
+import it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import javafx.util.Pair;
 import weka.attributeSelection.CorrelationAttributeEval;
@@ -12,7 +13,7 @@ import weka.filters.unsupervised.attribute.Standardize;
 import weka.filters.unsupervised.instance.RemoveDuplicates;
 
 public class Classifier {
-    private final String PATH_TO_DATASET = "./data.csv";
+    private final String PATH_TO_DATASET = ConfigurationParameters.getInstance().getDatasetPath();
     private final int K = 5;
 
     private static volatile Classifier instance;

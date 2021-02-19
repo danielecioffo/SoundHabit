@@ -1,5 +1,6 @@
 package it.unipi.dii.inginf.dmml.soundhabit.classification;
 
+import it.unipi.dii.inginf.dmml.soundhabit.config.ConfigurationParameters;
 import it.unipi.dii.inginf.dmml.soundhabit.utils.Utils;
 import weka.core.DenseInstance;
 import weka.core.Instance;
@@ -36,7 +37,7 @@ public class SongFeature {
     public Instances toInstances () {
         Instances instances = null;
         try {
-            instances = Utils.loadDataset("./data.csv");
+            instances = Utils.loadDataset(ConfigurationParameters.getInstance().getDatasetPath());
 
             double[] values = new double[27];
             values[0] = chromaStft;
