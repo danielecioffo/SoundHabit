@@ -29,6 +29,11 @@ public class Song {
         return genreList;
     }
 
+    /**
+     * Function that given the delimeter returns a string for the value of the genres list
+     * @param delimiter     Delimeter to use
+     * @return              The string that contains the genres of the song
+     */
     public String getGenresString(String delimiter) {
         StringBuilder genres = new StringBuilder();
         for(int i = 0; i< genreList.size(); i++) {

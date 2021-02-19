@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class that implement the client of the FeatureExtractor server
+ */
 public class FeatureExtractor {
     private DataOutputStream dataOutputStream;
     private BufferedReader bufferedReader;

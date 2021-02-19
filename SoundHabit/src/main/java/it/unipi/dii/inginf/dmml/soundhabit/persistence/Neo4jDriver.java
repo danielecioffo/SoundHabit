@@ -594,6 +594,9 @@ public class Neo4jDriver {
         return genres;
     }
 
+    /**
+     * This function can be used to populate the database, in case of problems with the dump
+     */
     public void populateDatabase() {
         // ROCK
         addSong(new Song("Purple Haze", Collections.singletonList(Genre.ROCK), "https://youtu.be/WGoDaYjdfSg", "Jimi Hendrix", "https://c-sf.smule.com/rs-s24/arr/18/84/e5edb226-59d0-4d4f-858f-6fce20a7b326.jpg"));

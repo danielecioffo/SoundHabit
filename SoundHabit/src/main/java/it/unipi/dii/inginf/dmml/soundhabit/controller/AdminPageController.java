@@ -105,6 +105,10 @@ public class AdminPageController {
         }
     }
 
+    /**
+     * Function that returns the list of the genres selected by the user
+     * @return      List of genres
+     */
     private ArrayList<Genre> getSelectedGenres() {
         ArrayList<Genre> genres = new ArrayList<>();
 

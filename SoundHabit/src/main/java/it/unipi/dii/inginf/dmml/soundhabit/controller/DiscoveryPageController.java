@@ -170,7 +170,7 @@ public class DiscoveryPageController {
 
     /**
      * Function that handle the changes to the searchComboBox
-     * @param event
+     * @param event     Event that leads to this function
      */
     private void comboAction(ActionEvent event) {
         page = 0;
@@ -179,7 +179,7 @@ public class DiscoveryPageController {
 
     /**
      * Handler for the next button
-     * @param mouseEvent    Events that leads to this function
+     * @param mouseEvent    Event that leads to this function
      */
     private void clickOnNext(MouseEvent mouseEvent) {
         page++;
@@ -190,7 +190,7 @@ public class DiscoveryPageController {
 
     /**
      * Handler for the previous button
-     * @param mouseEvent    Events that leads to this function
+     * @param mouseEvent    Event that leads to this function
      */
     private void clickOnPrevious(MouseEvent mouseEvent) {
         page--;
