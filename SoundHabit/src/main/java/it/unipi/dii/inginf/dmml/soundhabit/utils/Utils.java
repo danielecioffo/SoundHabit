@@ -106,9 +106,9 @@ public class Utils {
     }
 
     /**
-     * Function that returns the integer value of a genre
-     * @param genre         Genre to consider
-     * @return              Integer value
+     * Function that returns the genre given the integer value
+     * @param genre         Integer value
+     * @return              Genre
      */
     public static Genre integerToGenre(int genre) {
         switch (genre) {
