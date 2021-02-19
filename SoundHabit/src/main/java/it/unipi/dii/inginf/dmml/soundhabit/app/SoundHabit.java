@@ -27,7 +27,6 @@ public class SoundHabit extends Application {
         primaryStage.getIcons().add(new Image("/img/icon.png"));
         primaryStage.setResizable(false);
 
-
         primaryStage.setOnCloseRequest(actionEvent -> Neo4jDriver.getInstance().closeConnection());
     }
 

@@ -594,10 +594,87 @@ public class Neo4jDriver {
         return genres;
     }
 
+
+    /* ------------ This section is only for populate the database, in case of necessity ------------- */
+
+    /**
+     * Function used to elect a user to admin
+     * @param user      User to elect
+     */
+    public void electAdmin (User user)
+    {
+        try(Session session = driver.session())
+        {
+            session.writeTransaction(tx -> {
+                tx.run("MATCH (u:User {username: $username}) " +
+                                "SET u:Administrator",
+                        parameters("username",user.getUsername()));
+                return null;
+            });
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This function creates the constraint on the username (that must be unique and must always exist)
+     */
+    private void createUsernameConstraint() {
+        try ( Session session = driver.session())
+        {
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run( "CREATE CONSTRAINT username_constraint IF NOT EXISTS ON (u: User) ASSERT (u.username) IS NODE KEY");
+                return null;
+            });
+        }
+    }
+
+    /**
+     * This function creates the constraint on the name and author of the song (they must be unique and must always exist)
+     */
+    private void createNameAuthorConstraint() {
+        try ( Session session = driver.session())
+        {
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run( "CREATE CONSTRAINT name_author_song_constraint ON (s:Song) ASSERT (s.name, s.author) IS NODE KEY ");
+                return null;
+            });
+        }
+    }
+
+    /**
+     * Function used to delete all the nodes and the edges of the graph
+     */
+    public void deleteAllGraph ()
+    {
+        try ( Session session = driver.session())
+        {
+            session.writeTransaction((TransactionWork<Void>) tx -> {
+                tx.run( "MATCH (n) DETACH DELETE n");
+                return null;
+            });
+        }
+    }
+
     /**
      * This function can be used to populate the database, in case of problems with the dump
      */
     public void populateDatabase() {
+
+        deleteAllGraph();
+
+        createNameAuthorConstraint();
+        createUsernameConstraint();
+
+        addUser("oliver", "smith", "oliver.smith", "oliver.smith");
+        addUser("jessica", "evans", "jessica.evans", "jessica.evans");
+        addUser("jack", "jones", "jack.jones", "jack.jones");
+
+        User oliver = new User("oliver", "smith", "oliver.smith", "oliver.smith");
+        electAdmin(oliver);
+
         // ROCK
         addSong(new Song("Purple Haze", Collections.singletonList(Genre.ROCK), "https://youtu.be/WGoDaYjdfSg", "Jimi Hendrix", "https://c-sf.smule.com/rs-s24/arr/18/84/e5edb226-59d0-4d4f-858f-6fce20a7b326.jpg"));
         addSong(new Song("Under Pressure", Collections.singletonList(Genre.ROCK), "https://youtu.be/a01QQZyl-_I", "Queen", "https://e-cdns-images.dzcdn.net/images/cover/e16455433a84c7e19025403ae3eec52d/350x350.jpg"));
