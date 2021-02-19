@@ -5,7 +5,6 @@ import Extractor
 import FeatureExtractorServer
 
 ORIGINAL_DATASET_PATH = "genres/"
-# genres = 'blues classical country disco hiphop jazz metal pop reggae rock'.split()
 genres = 'blues classical jazz metal pop rock'.split()
 
 

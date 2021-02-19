@@ -6,8 +6,11 @@ SIMPLE_PACKET_SIZE = 1024
 FILE_PACKET_SIZE = 4 * 1024
 
 
-# Single-process server
 def start_server():
+    """
+            This function starts the server (single-process server)
+    """
+
     host = 'localhost'  # Host Name
     port = 5000  # Port Number
     s = jpysocket.jpysocket()  # Create Socket
