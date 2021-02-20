@@ -8,6 +8,8 @@ The application can automatically extract music information and classify the son
 
 The only thing users need to do is to select, from the list of featured songs, the ones they like the most and let the application do all the work. As a result, users can find out more about their personal tastes and hopefully answer the recurring question: *"What kind of music are you into?"*.
 
+The complete documentation can be found [here](https://github.com/danielecioffo/SoundHabit/blob/main/SoundHabit%20documentation.pdf).
+
 ## Repository Organization
 The project repository is organized as follows:
 * *FeatureExtractor*: module that contains the Python server that extracts audio features from songs
