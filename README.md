@@ -13,6 +13,6 @@ The complete documentation can be found [here](https://github.com/danielecioffo/
 ## Repository Organization
 The project repository is organized as follows:
 * *FeatureExtractor*: module that contains the Python server that extracts audio features from songs
-* *SoundHabit*: module that contains the actual application
+* *SoundHabit*: module that contains the actual Java application
 * *Dump Neo4j*: directory that contains a dump of the database
 * *Test Set*: directory that contains some songs to test the genre classification
