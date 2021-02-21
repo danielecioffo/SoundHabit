@@ -33,9 +33,6 @@ public class WelcomePageController {
         loginButton.setOnMouseClicked(mouseEvent -> handleLoginButtonAction(mouseEvent));
         registrationButton.setOnMouseClicked(mouseEvent -> handleRegisterButtonAction(mouseEvent));
         neo4jDriver = Neo4jDriver.getInstance();
-
-        usernameLoginTextField.setText("jessica.evans");
-        passwordLoginTextField.setText("jessica.evans");
     }
 
     /**
