@@ -18,9 +18,15 @@ The project repository is organized as follows:
 * *Test Set*: directory that contains some songs to test the genre classification
 
 ## Execute
-To start the client side of the application, please load the SoundHabit module into IntelliJ (or others IDE) and run the main function of the it.unipi.dii.inginf.dmml.soundhabit.app class. It is an academic project, an executable file has not been prepared.
-For using this application, it is strongly recommended to load the Neo4j Dump on Neo4j. This because we have prepared some users and some songs; if you don't load the dump, of course you will see nothing, and you have to manually create one administrator user, inserting manually the label :Administrator on some user. This because we have only one administrator, and so there is no possibility inside the application to elect one user as Administrator.
+To start the client side of the application, please load the SoundHabit module into IntelliJ (or others IDE) and run the main function of the it.unipi.dii.inginf.dmml.soundhabit.app class. 
+It is an academic project, an executable file has not been prepared.
+
+For using this application, it is strongly recommended to load the Neo4j Dump on Neo4j. This because we have prepared some users and some songs; if you don't load the dump, of course you will see nothing, and you have to manually create one administrator user, inserting manually the label *:Administrator* on some user. This because we have only one administrator, and so there is no possibility inside the application to elect one user as Administrator.
+
 There is an administrator in the dump, with username "oliver.smith" and password "oliver.smith". (for simplicity in the pre-set users the username is always the same as the password).
-Logging in with Oliver will open the administration page, where you can insert new songs, also using the music classifier. Instead, the other users are standard users (jessica.evans and jack.jones) and they can like songs, see personalized suggestions, etc.
-Note: To use the music classifier you need to activate the server, otherwise a "Service not available" message will be shown. To be able to run the server, you must have all the requirements, see [here](https://github.com/danielecioffo/SoundHabit/blob/main/FeatureExtractor/Requirements.txt).
-In general, it is possible to modify all the parameters concerning access to the database and the server through the configuration file, which is called config.xml.
+Logging in with Oliver will open the administration page, where you can insert new songs, also using the music classifier. 
+Instead, the other users are standard users (jessica.evans and jack.jones) and they can like songs, see personalized suggestions, etc.
+
+Note: To use the music classifier you need to activate the server, otherwise a "Service not available" message will be shown. To be able to run the server, you must have all the *requirements*, see [here](https://github.com/danielecioffo/SoundHabit/blob/main/FeatureExtractor/Requirements.txt).
+
+In general, it is possible to modify all the parameters concerning access to the database and the server through the configuration file, which is called *config.xml*.
