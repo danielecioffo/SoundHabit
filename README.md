@@ -27,6 +27,6 @@ There is an administrator in the dump, with username "oliver.smith" and password
 Logging in with Oliver will open the administration page, where you can insert new songs, also using the music classifier. 
 Instead, the other users are standard users (jessica.evans and jack.jones) and they can like songs, see personalized suggestions, etc.
 
-Note: To use the music classifier you need to activate the server, otherwise a "Service not available" message will be shown. To be able to run the server, you must have all the *requirements*, see [here](https://github.com/danielecioffo/SoundHabit/blob/main/FeatureExtractor/Requirements.txt).
+Note: To use the music classifier you need to activate the server, otherwise a "Service not available" message will be shown. To be able to run the server, you must have all the *requirements*, see [here](https://github.com/danielecioffo/SoundHabit/blob/main/FeatureExtractor/Requirements.txt). The server is a python script, so you can execute him by *python main.py*.
 
 In general, it is possible to modify all the parameters concerning access to the database and the server through the configuration file, which is called *config.xml*.
